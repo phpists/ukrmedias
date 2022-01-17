@@ -1,0 +1,36 @@
+AddDefaultCharset UTF-8
+
+Options +FollowSymLinks
+IndexIgnore */*
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    SetOutputFilter DEFLATE
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+</IfModule>
+
+
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{HTTPS} =off
+RewriteCond %{HTTP_HOST} \.online$ [NC]
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|bmp)$ [NC]
+RewriteCond %{HTTP_ACCEPT} image/webp [NC]
+RewriteCond %{REQUEST_FILENAME}.webp -f
+RewriteRule . %{REQUEST_FILENAME}.webp [L]
+
+RewriteCond %{REQUEST_URI} \.(jpg|jpeg|png|bmp)$ [NC]
+RewriteCond %{HTTP_ACCEPT} image/webp [NC]
+RewriteCond %{HTTP_REFERER} !admin [NC]
+RewriteRule . /image.php [L]
+
+# If a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Otherwise forward it to index.php
+RewriteRule . index.php

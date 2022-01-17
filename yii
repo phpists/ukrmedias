@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+date_default_timezone_set('Europe/Kiev');
+error_reporting(-1);
+ini_set('log_errors', true);
+ini_set('memory_limit', '512M');
+ini_set('error_log', __DIR__ . '/runtime/logs/app.log');
+define('YII_DEBUG', getenv('SERVER_INSTANCE_ID') <> '');
+require(__DIR__ . '/components/Yii.php');
+$config = require(__DIR__ . '/config/console.php');
+exit((new yii\console\Application($config))->run());

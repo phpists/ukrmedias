@@ -1,0 +1,96 @@
+.alert ul{
+    list-style:disc;
+    padding-left:30px;
+}
+.excel_viewer{
+    width:100%;
+    overflow-x: auto;
+}
+.excel_viewer .document{
+    width:100%;
+    min-width:800px;
+}
+.excel_viewer .document table.cells{
+    border-spacing: 0;
+}
+.excel_viewer .document table.cells tr{
+    display:table-row;
+}
+.excel_viewer .document table.cells td{
+    width:200px;
+    overflow: hidden;
+    border-radius: 0;
+    padding:2px;
+    border:1px solid lightgray;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    background-color:#ffffff;
+}
+.excel_viewer .document table.cells td:first-child{
+    width:30px;
+}
+.excel_viewer .document table.cells tr:hover td{
+    background-color:#ffffff;
+}
+.excel_viewer .document table.cells td:last-child{
+    border-right-width: 1px;
+    border-right-color:darkgray;
+}
+.excel_viewer .document table.cells tr:last-child td{
+    border-bottom-width: 1px;
+    border-bottom-color:darkgray;
+}
+.excel_viewer .document table.cells tr:nth-child(2) td{
+    border-top-color:darkgray;
+}
+.excel_viewer .document table.cells td:nth-child(2){
+    border-left-color:darkgray;
+}
+.excel_viewer .document table.cells td.panel,.excel_viewer .document table.cells tr:hover td.panel{
+    background-color: #f0f0f0;
+    text-align: center;
+    border-color:darkgray;
+    font-family: Courier, Courier New;
+}
+.excel_viewer .document table.cells td select{
+    width:100%;
+    color:#000000;
+    font-weight: bold;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+.excel_viewer .document table.cells td select option{
+}
+.excel_viewer .sheets select{
+    width:246px;
+    border-radius: 0;
+    border:1px solid darkgray;
+    padding: 14px 0;
+    margin: 15px 0;
+}
+.excel_viewer .btn-row{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:15px;
+}
+.excel_viewer .btn{
+    display: inline-block;
+    font-weight: 600;
+    border-radius: 2px;
+    text-align: center;
+    border: 1px solid #EA2227;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 13px 0;
+    -webkit-transition: all .3s ease-out;
+    -o-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+    cursor: pointer;
+    width:246px;
+    color: #EA2227;
+    background-color: #fff;
+}
+.excel_viewer .btn:hover {
+    color: #fff;
+    background-color: #EA2227;
+}

@@ -1,0 +1,1 @@
+/opt/php73/bin/php -f `dirname $0`/yii $1

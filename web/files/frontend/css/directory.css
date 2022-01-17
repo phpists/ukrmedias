@@ -1,0 +1,131 @@
+.directory {
+  padding: 20px 0 100px;
+  background: #F1F2F5;
+}
+
+.directory .choise {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 20px;
+}
+
+.directory .choise div {
+  cursor: pointer;
+}
+
+.directory .choise div:hover p {
+  color: #EA2227;
+}
+
+.directory .choise img,
+.directory .choise picture {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.directory .choise p {
+  margin: 5px 0 0 0;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.directory_woman_socks {
+  background: #fff;
+  border-radius: 4px;
+  margin-top: 50px;
+  height: 85vh;
+}
+
+.directory_woman_socks .head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #DADDE6;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.directory_woman_socks .head svg {
+  fill: #2F4858;
+  cursor: pointer;
+}
+
+.directory_woman_socks .head svg:hover {
+  fill: #EA2227;
+}
+
+.directory_woman_socks .cont {
+  padding: 10px 5px 0;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  overflow: auto;
+  max-height: 85%;
+}
+
+.directory_woman_socks .cont::-webkit-scrollbar {
+  width: 8px;
+  background-color: transparent;
+}
+
+.directory_woman_socks .cont::-webkit-scrollbar-thumb {
+  background: #DADADA;
+  border-radius: 4px;
+}
+
+.directory_woman_socks .cont .item {
+  display: block;
+  border: 1px solid #DADDE6;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  transition: all .3s ease-out;
+}
+
+.directory_woman_socks .cont .item:hover {
+  border: 1px solid #EA2227;
+}
+
+.directory_woman_socks .cont .item picture,
+.directory_woman_socks .cont .item img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.directory_woman_socks .cont .item p {
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .directory .choise {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .directory .choise {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .directory {
+    padding: 20px 0;
+  }
+
+  .directory .choise {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

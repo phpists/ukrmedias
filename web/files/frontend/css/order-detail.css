@@ -1,0 +1,400 @@
+.orders .cont .table .order_number {
+    display: grid;
+    grid-template-columns: repeat(2, -webkit-max-content);
+    grid-template-columns: repeat(2, max-content);
+    grid-gap: 14px;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px 0;
+    margin: 0 10px;
+    border-bottom: 1px solid #DADDE6;
+}
+
+.orders .cont .table .order_number p {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    color: #000;
+}
+
+.orders .cont .table .order_number div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.orders .cont .table .order_number div picture,
+.orders .cont .table .order_number div img.status
+{
+    margin-right: 4px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.orders .cont .table .waybill {
+    display: grid;
+    grid-template-columns: repeat(2, -webkit-max-content);
+    grid-template-columns: repeat(2, max-content);
+    grid-gap: 10px 20px;
+    padding: 20px 0 10px;
+    margin: 0 10px;
+    border-bottom: 1px solid #DADDE6;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.orders .cont .table .waybill h6 {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    color: #000;
+}
+
+.orders .cont .table .waybill div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.orders .cont .table .waybill div picture {
+    margin-right: 4px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.orders .cont .table .info_item {
+    margin: 0 10px;
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: 80px 430px 100px 100px 100px;
+    grid-gap: 10px;
+    border-bottom: 1px solid #DADDE6;
+}
+
+.orders .cont .table .info_item .img {
+    height: 80px;
+    width: 80px;
+    padding: 0 10px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.orders .cont .table .info_item .img picture,
+.orders .cont .table .info_item .img img {
+    width: 100%;
+}
+
+.orders .cont .table .info_item .text p {
+    line-height: 24px;
+    margin: 0;
+}
+
+.orders .cont .table .info_item .text p:nth-child(1) {
+    background: #F1F2F5;
+    border-radius: 2px;
+    padding: 0 4px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.orders .cont .table .info_item .text p:nth-child(2) {
+    margin: 4px 0;
+}
+
+.orders .cont .table .info_item .quantity p:nth-child(1),
+.orders .cont .table .info_item .price p:nth-child(1),
+.orders .cont .table .info_item .sum p:nth-child(1) {
+    font-size: 14px;
+    line-height: 16px;
+    color: #6C7076;
+    margin: 0;
+}
+
+.orders .cont .table .info_item .quantity p:nth-child(2),
+.orders .cont .table .info_item .price p:nth-child(2),
+.orders .cont .table .info_item .sum p:nth-child(2) {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 8px 0 0 0;
+}
+
+.orders .cont .table .waybill_total{
+    display:flex;
+}
+.orders .cont .table .waybill_total .col{
+    display:flex;
+    flex-direction: column;
+    width:30%;
+}
+.orders .cont .table .waybill_total .col .row{
+    margin-bottom:10px;
+}
+.orders .cont .table .waybill_total {
+    margin: 0 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DADDE6;
+}
+
+.orders .cont .table .waybill_total p:nth-child(2n+1) {
+    font-size: 14px;
+    line-height: 16px;
+    color: #6C7076;
+    margin: 0;
+}
+
+.orders .cont .table .waybill_total p:nth-child(2n) {
+    font-size: 16px;
+    line-height: 24px;
+    color: #18262F;
+    margin: 4px 0 4px;
+}
+
+.orders .cont .table .waybill_total a {
+    padding: 10px 20px 10px 10px;
+    text-align: center;
+    border: 1px solid #DADDE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #2F4858;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin: 20px 0;
+}
+
+.orders .cont .table .waybill_total a:hover {
+    color: #EA2227;
+}
+
+.orders .cont .table .waybill_total a svg {
+    fill: #2F4858;
+    margin-right: 4px;
+}
+
+.orders .cont .table .waybill_total a:hover svg {
+    fill: #EA2227;
+}
+
+.orders .cont .table .add_order {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px 10px;
+    padding: 20px 0;
+    margin: 0 10px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.orders .cont .table .add_order h2 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin: 0;
+    grid-column: 1/3;
+    grid-row: 1/2;
+}
+
+.orders .cont .table .add_order div:nth-child(2) {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.orders .cont .table .add_order div:nth-child(3) {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.orders .cont .table .add_order div h6 {
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0;
+    font-weight: normal;
+    color: #18262F;
+}
+
+.orders .cont .table .add_order div p {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 4px 0 20px;
+    color: #6C7076;
+}
+
+.orders .cont .table .add_order div a {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #EA2227;
+    border: 1px solid #EA2227;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 2px;
+    padding: 10px 0;
+    text-align: center;
+    -webkit-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    width: 60%;
+    display: block;
+}
+
+.orders .cont .table .add_order div a:hover {
+    color: #fff;
+    background: #EA2227;
+}
+
+@media (max-width: 1140px) {
+    .orders .cont .table .info_item {
+        grid-template-columns: 80px 37.8% repeat(3, 12.7%);
+    }
+}
+
+@media (max-width: 768px) {
+    .orders .cont .table .waybill_total{
+        flex-direction: column;
+    }
+    .orders .cont .table .waybill_total .col{
+        width:100%;
+    }
+    .orders .cont .table .waybill_total .col .row{
+        display:flex;
+    }
+    .orders .cont .table .waybill_total .col .row p{
+        display: inline-block;
+        margin:0;
+        line-height: normal;
+        font-size: inherit;
+    }
+    .orders .cont .table .waybill_total .col .row p:first-child{
+        width:150px;
+    }
+}
+@media (max-width: 610px) {
+    .orders .cont .table .info_item {
+        grid-template-columns: repeat(auto-fill, minmax(-webkit-max-content, 2fr));
+        grid-template-columns: repeat(auto-fill, minmax(max-content, 2fr));
+    }
+
+    .orders .cont .table .info_item .img {
+        grid-template: 1/2;
+        grid-row: 1/2;
+    }
+
+    .orders .cont .table .info_item .text {
+        grid-template: 2/6;
+        grid-row: 1/2;
+    }
+
+    .orders .cont .table .info_item .quantity {
+        grid-template: 1/3;
+        grid-row: 2/3;
+    }
+
+    .orders .cont .table .info_item .price {
+        grid-template: 3/5;
+        grid-row: 2/3;
+        justify-self: center;
+    }
+
+    .orders .cont .table .info_item .sum {
+        grid-template: 5/7;
+        grid-row: 2/3;
+    }
+
+    .orders .cont .table .add_order {
+        grid-template-columns: 1fr;
+    }
+
+    .orders .cont .table .add_order div:nth-child(2) {
+        grid-column: 1/2;
+        grid-row: 2/3;
+    }
+
+    .orders .cont .table .add_order div:nth-child(3) {
+        grid-column: 1/2;
+        grid-row: 3/4;
+    }
+
+    .orders .cont .table .add_order div a {
+        width: 100%;
+    }
+}
+
+@media (max-width: 440px) {
+    .orders .cont .table .order_number {
+        grid-template-columns: 1fr;
+    }
+
+    .orders .cont .table .waybill {
+        grid-template-columns: 1fr;
+    }
+
+    .orders .cont .table .info_item {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .orders .cont .table .info_item .img {
+        grid-template: 1/2;
+        grid-row: 1/2;
+    }
+
+    .orders .cont .table .info_item .text {
+        grid-template: 1/6;
+        grid-row: 1/2;
+    }
+
+    .orders .cont .table .info_item .quantity {
+        grid-template: 1/2;
+        grid-row: 2/3;
+    }
+
+    .orders .cont .table .info_item .price {
+        grid-template: 2/3;
+        grid-row: 3/4;
+        justify-self: start;
+    }
+
+    .orders .cont .table .info_item .sum {
+        grid-template: 3/4;
+        grid-row: 4/5;
+    }
+}
+
+@media (max-width: 360px) {
+    .orders .cont .table .info_item {
+        grid-template-columns: 1fr;
+    }
+}

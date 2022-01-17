@@ -1,0 +1,256 @@
+.grid-view{
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 0 6px;
+}
+.grid-view.no-data{
+    padding-bottom:7px;
+}
+.list-view .summary,.grid-view .summary{
+    font-size:12px;
+}
+.list-view .summary{
+    margin-top:-5px;
+}
+.table{
+    background-color: transparent;
+    font-size:16px;
+}
+table.table:not(:last-child){
+    margin-bottom:0px;
+}
+.table thead:after{
+    display:block;
+    height:4px;
+    content:" ";
+}
+.table.alt thead:after{
+    display:none;
+}
+.table th{
+    border:0;
+}
+.table th:not([align]){
+    text-align: center;
+}
+.table td.actions:not([align]){
+    text-align: right;
+}
+.table td{
+    border:1px solid #cfd4e6;
+}
+.table thead tr:first-child th:first-child{
+    border-radius:4px 0 0 0;
+}
+.table thead tr:first-child th:last-child{
+    border-radius:0 4px 0 0;
+}
+.table tbody tr:last-child td:first-child{
+    border-radius:0 0 0 4px;
+}
+.table tbody tr:last-child td:last-child{
+    border-radius:0 0 4px 0;
+}
+.table tbody tr th:first-child{
+    border:0;
+}
+.table tbody td,.table tbody td a.cell-link{
+    color:#070F10;
+}
+.table td, .table th {
+    background-color: #ffffff;
+    padding: 4px;
+    font-size:14px;
+    font-weight: normal;
+    line-height: 26px;
+}
+.table .filters td{
+    border:0;
+    padding:5px 1px 1px 1px;
+    border-top:1px solid #cfd4e6;
+}
+.table .filters input{
+    width:100%;
+    opacity:1;
+    padding:2px 5px;
+}
+.table .sort-type{
+    display: inline-block;
+    width: 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+    height:18px;
+    line-height: 0;
+}
+.table .nice-select, .table tr.filters input{
+    border-color:#cfd4e6;
+}
+.table .sort-type__item{
+    display: inline-block;
+    height: 9px;
+}
+.table a.asc .sort-type .sort-type__item:first-child path{
+    fill: #ff6634;
+}
+.table a.desc .sort-type .sort-type__item:last-child path{
+    fill: #ff6634;
+}
+.table .form-default__input,.table .form-default__select{
+    height:26px;
+    line-height: 22px;
+    font-size: 14px;
+}
+.table .form-default__select::after{
+    right: 0px;
+}
+.table .filters input::placeholder{
+    color:transparent;
+    text-transform: lowercase;
+}
+.table .filters input::placeholder,
+.table .filters input:focus::placeholder{
+    color:transparent;
+    text-transform: lowercase;
+}
+.table .filters select option:first-child{
+    color:transparent;
+}
+.table .mob-title{
+    display:none;
+}
+.table .actions{
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.table .actions .btn {
+    background: #2a808c;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+}
+table.simple, table.simple th, table.simple td{
+    border:1px solid #cfd4e6;
+    padding:2px 5px;
+}
+a.cell-link{
+    display:block;
+    min-height: 24px;
+    margin-left: -5px;
+    margin-right: -5px;
+    padding: 0 5px;
+    color: inherit;
+}
+tr:hover a.cell-link{
+    color: #58a3ad;
+}
+#accordion_card_left.collapsed a.btn-add-white{
+    display:none;
+}
+@media(min-width:992px) {
+    .table td.actions{
+        border-top-color:transparent;
+        border-right-color:transparent;
+        border-bottom-color:transparent;
+    }
+}
+@media(max-width:991px) {
+    .grid-view{
+        padding-top:8px;
+    }
+    .grid-view .summary {
+        margin-top: -18px;
+    }
+    td.nowrap{
+        white-space: normal;
+    }
+    table, thead, tbody, th, td{
+        display:block;
+        width:100%;
+    }
+    .table.table-bordered{
+        border:0;
+    }
+    .table thead tr:not(.filters){
+        display: none;
+    }
+    .table tr{
+        display: flex;
+        flex-direction: column;
+    }
+    tbody tr{
+        margin-bottom:20px;
+        background-color: transparent;
+    }
+    .grid-view.no-data tr{
+        margin:0;
+    }
+    .table.table-bordered td {
+        border-bottom:0px solid #cfd4e6;
+        padding:0.1rem 0.75rem
+    }
+    .table.table-bordered tbody td:last-child {
+        border-bottom:1px solid #cfd4e6;
+    }
+    .table .filters td.empty{
+        display:none;
+    }
+    .table .filters td{
+        border-width:0px;
+        padding:0;
+        position:relative;
+        margin-bottom:12px;
+    }
+    .table .filters td input,.table .filters td select{
+        padding:2px 4px;
+        height:30px;
+    }
+    .table .filters input::placeholder{
+        color:inherit;
+    }
+    .table tbody tr td:first-child, .table tbody tr:last-child td:first-child{
+        border-radius:4px 4px 0 0;
+    }
+    .table tbody tr td:last-child, .table tbody tr:last-child td:last-child{
+        border-radius:0 0 4px 4px;
+    }
+    .table tbody tr td:first-child:last-child{
+        border-radius:4px;
+    }
+    .table .filters select option:first-child{
+        color:inherit;
+    }
+    .table .mob-title{
+        display:inline-block;
+        opacity: 0.6;
+        font-size:80%;
+        width:120px;
+        color:#49515e;
+    }
+    .table .filters td.empty{
+        display:none;
+    }
+    .table .actions a{
+        visibility: visible;
+    }
+    .table-note{
+        max-width: none;
+    }
+    .table thead::after{
+        height:0;
+    }
+
+}
+
+@media(max-width:768px) {
+    .table .mob-title,.table .mob-descr{
+        display:inline-block;
+        vertical-align: top;
+    }
+    .table .mob-title{
+        width:20%;
+    }
+    .table .mob-descr{
+        width:80%;
+    }
+
+}
