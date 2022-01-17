@@ -1,0 +1,15 @@
+[2022-01-12 22:48:06] /save_firm
+[2022-01-12 22:48:06] array (
+  'site_id' => 48600,
+  'title' => 'Рой Ольга Сергеевна',
+  'phone' => 
+  array (
+    0 => '+380674026175',
+  ),
+  'id_diler' => '',
+)
+[2022-01-12 22:48:06] array (
+  'res' => false,
+  'message' => 'API (http://195.138.92.116:40080/b2b1c/hs/site2c/000000001/save_firm): responce code 0',
+  'responce' => false,
+)
