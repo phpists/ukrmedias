@@ -17,8 +17,8 @@ $this->params['breadcrumbs'] = [
             <h3>Заявка прийнята</h3>
             <p>Менеджер зв’яжеться з вами найближчим часом.</p>
             <a href="<?php echo Url::to(['/client/profile/dashboard']); ?>">Перейти до каталогу</a>
-            <a href="<?php echo Url::to(['/client/preorders/index']); ?>">Мої заявки</a>
-            <a href="<?php echo Url::to(['/client/orders/index']); ?>">Мої замовлення</a>
+            <a href="<?php echo Url::to(['/client/preorders/index']); ?>">Мої замовлення</a>
+            <a href="<?php echo Url::to(['/client/orders/index']); ?>">Мої накладні</a>
         </div>
     </div>
 <?php endif; ?>

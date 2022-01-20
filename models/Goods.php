@@ -2,12 +2,13 @@
 
 namespace app\models;
 
-use Yii;
-use yii\data\ActiveDataProvider;
 use app\components\Auth;
 use app\components\Misc;
+use Yii;
+use yii\data\ActiveDataProvider;
 
-class Goods extends \app\components\BaseActiveRecord {
+class Goods extends \app\components\BaseActiveRecord
+{
 
     use \app\components\T_CpuModel;
     use \app\components\T_FileAttributesMisc;
@@ -25,7 +26,8 @@ class Goods extends \app\components\BaseActiveRecord {
     protected $_old_price;
     protected $_promo_discount;
 
-    public function filesConfig() {
+    public function filesConfig()
+    {
         return array(
             'photos' => [
                 'scenario' => ModelFiles::SCENARIO_IMG, 'multi' => true, 'label' => 'Зображення 750x1000', 'default' => '/files/images/system/empty.png', 'resize' => [
@@ -38,11 +40,13 @@ class Goods extends \app\components\BaseActiveRecord {
         );
     }
 
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'goods';
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['title', 'descr', 'price', 'qty_pack', 'weight', 'brand', 'brand_id', 'cat_id'], 'required'],
             ['pic', 'default', 'value' => ''],
@@ -62,7 +66,8 @@ class Goods extends \app\components\BaseActiveRecord {
         ];
     }
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'title' => 'Найменування',
             'article' => 'Артикул',
@@ -85,11 +90,13 @@ class Goods extends \app\components\BaseActiveRecord {
         ];
     }
 
-    static public function getPublicCondition() {
+    static public function getPublicCondition()
+    {
         return 'g.price>0 AND visible_by_stock=1';
     }
 
-    public function search() {
+    public function search()
+    {
         $query = self::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -109,7 +116,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $dataProvider;
     }
 
-    public function searchByPriceType($pid) {
+    public function searchByPriceType($pid)
+    {
         $dataProvider = $this->search();
         $dataProvider->query->select(new \yii\db\Expression('g.*, gp.price AS typedPrice'));
         $dataProvider->query->alias('g');
@@ -118,7 +126,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $dataProvider;
     }
 
-    public function searchByPromo($pid) {
+    public function searchByPromo($pid)
+    {
         $dataProvider = $this->search();
         $dataProvider->query->select(new \yii\db\Expression('g.id, title, article,code, price, gp.discount'));
         $dataProvider->query->alias('g');
@@ -127,7 +136,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $dataProvider;
     }
 
-    public function searchWithVariants() {
+    public function searchWithVariants()
+    {
         new \yii\data\ActiveDataProvider;
         $dataProvider = $this->search();
         $dataProvider->query->select(new \yii\db\Expression('CONCAT(g.id,"-",gv.variant_id) AS id, g.title, g.article, g.code, g.price, gv.variant_id, v.size, v.color'));
@@ -137,7 +147,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $dataProvider;
     }
 
-    static public function import($attrs) {
+    static public function import($attrs)
+    {
         $model = Goods::findModel($attrs['id']);
         $model->saveModel($attrs, 'import');
         $model->addErrors($model->CpuModel->getErrors());
@@ -147,7 +158,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $model;
     }
 
-    public function saveModel($attrs, $scenario = null) {
+    public function saveModel($attrs, $scenario = null)
+    {
         $this->setAttributes($attrs, false);
         $this->getCpuModel(true);
         if ($scenario !== null) {
@@ -179,7 +191,8 @@ class Goods extends \app\components\BaseActiveRecord {
 //        return $min;
 //    }
 
-    public function updateModel() {
+    public function updateModel()
+    {
         $res = $this->validate() && $this->getCpuModel()->validate();
         if (!$res) {
             return $res;
@@ -191,7 +204,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $res;
     }
 
-    public function deleteModel() {
+    public function deleteModel()
+    {
         $res = is_numeric($this->delete());
         if ($res) {
             Cpu::deleteAll(['id' => $this->id, 'class' => get_called_class()]);
@@ -199,7 +213,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $res;
     }
 
-    public function getBrand() {
+    public function getBrand()
+    {
         $key = "_brand_{$this->brand_id}";
         $value = Yii::$app->cache->get($key);
         if (!$value) {
@@ -209,7 +224,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $value;
     }
 
-    public function getCategory() {
+    public function getCategory()
+    {
         $key = "_category_{$this->cat_id}";
         $value = Yii::$app->cache->get($key);
         if (!$value) {
@@ -219,38 +235,45 @@ class Goods extends \app\components\BaseActiveRecord {
         return $value;
     }
 
-    public function getParams($type_id = Params::TYPE_GOODS_AND_FILTER) {
+    public function getParams($type_id = Params::TYPE_GOODS_AND_FILTER)
+    {
         return Params::getList($this->id, $type_id);
     }
 
-    public function getVariants() {
+    public function getVariants()
+    {
         return Variants::getList($this->id);
     }
 
-    public function findGroupGoods($self = true) {
+    public function findGroupGoods($self = true)
+    {
         $goods = self::find()->alias('g')
-                        ->where(['brand_id' => $this->brand_id, 'cat_id' => $this->cat_id, 'pic' => $this->pic])
-                        ->andWhere('id<>:id AND ' . self::getPublicCondition(), [':id' => $this->id])
-                        ->indexBy('id')->all();
+            ->where(['brand_id' => $this->brand_id, 'cat_id' => $this->cat_id, 'pic' => $this->pic])
+            ->andWhere('id<>:id AND ' . self::getPublicCondition(), [':id' => $this->id])
+            ->indexBy('id')->all();
         if ($self) {
             $goods[$this->id] = $this;
         }
         return $goods;
     }
 
-    public function getVariantsGrouped() {
+    public function getVariantsGrouped()
+    {
         return Variants::getListGrouped($this->findGroupGoods());
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function getDescr() {
+    public function getDescr()
+    {
         return $this->descr;
     }
 
-    public function getPrice() {
+    public function getPrice()
+    {
         if ($this->_price === null) {
             if (Auth::isClient()) {
                 self::$price_type_id = Yii::$app->user->identity->getFirm()->price_type_id;
@@ -268,7 +291,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $this->_price;
     }
 
-    public function getPriceRange() {
+    public function getPriceRange()
+    {
         $goods = $this->findGroupGoods(false);
         $prices = [$this->getPrice()];
         foreach ($goods as $dataModel) {
@@ -282,7 +306,8 @@ class Goods extends \app\components\BaseActiveRecord {
         return $min;
     }
 
-    protected function applyPromo() {
+    protected function applyPromo()
+    {
         if (!$this->has_promo) {
             return;
         }
@@ -295,16 +320,19 @@ class Goods extends \app\components\BaseActiveRecord {
         }
     }
 
-    public function hasOldPrice() {
+    public function hasOldPrice()
+    {
         $this->getPrice(); //init price
         return $this->_old_price <> $this->_price;
     }
 
-    public function getOldPrice() {
+    public function getOldPrice()
+    {
         return $this->_old_price;
     }
 
-    public function getRuntimeDiscount() {
+    public function getRuntimeDiscount()
+    {
         if ($this->_old_price > 0) {
             return round(100 * ($this->_old_price - $this->_price) / $this->_old_price, 0);
         } else {
@@ -312,22 +340,26 @@ class Goods extends \app\components\BaseActiveRecord {
         }
     }
 
-    public function getBasePrice() {
+    public function getBasePrice()
+    {
         return $this->price;
     }
 
-    public function getDiscountTxt() {
+    public function getDiscountTxt()
+    {
         if ($this->price == 0) {
             return '0%';
         }
         return round(100 * ($this->price - $this->typedPrice) / $this->price, 2) . '%';
     }
 
-    public function getPromoDiscountTxt() {
+    public function getPromoDiscountTxt()
+    {
         return "{$this->discount}%";
     }
 
-    public function getMainPhoto() {
+    public function getMainPhoto()
+    {
         $dataModel = GoodsPhotoData::find()->where(['goods_id' => $this->id, 'main' => 1])->one();
         if ($dataModel === null) {
             $dataModel = GoodsPhotoData::find()->where(['goods_id' => $this->id])->one();
@@ -339,19 +371,23 @@ class Goods extends \app\components\BaseActiveRecord {
         return array_shift($data);
     }
 
-    public function getPhotos() {
+    public function getPhotos()
+    {
         return $this->getModelFiles('photos')->findMulti();
     }
 
-    public function isHasNew() {
+    public function isHasNew()
+    {
         return $this->has_new > 0;
     }
 
-    public function isHasPromo() {
+    public function isHasPromo()
+    {
         return $this->has_promo > 0;
     }
 
-    public function getAvailableXml() {
+    public function getAvailableXml()
+    {
         $data = Yii::$app->db->createCommand('SELECT SUM(qty) AS qty, SUM(qty_alt) FROM goods_variants WHERE goods_id=:goods_id', [':goods_id' => $this->id])->queryOne();
         if ($data['qty'] > 0) {
             return 'true';
@@ -362,7 +398,8 @@ class Goods extends \app\components\BaseActiveRecord {
         }
     }
 
-    public function getAvailableXls() {
+    public function getAvailableXls()
+    {
         $data = Yii::$app->db->createCommand('SELECT SUM(qty) AS qty, SUM(qty_alt) AS qty_alt FROM goods_variants WHERE goods_id=:goods_id', [':goods_id' => $this->id])->queryOne();
         if ($data['qty'] > 0) {
             return 'в наявності';
@@ -373,10 +410,30 @@ class Goods extends \app\components\BaseActiveRecord {
         }
     }
 
-    public function setVisibleByStock($qty, $min, $max) {
+    public function setVisibleByStock($qty, $min, $max)
+    {
         $v = intval($qty > 0);
         $this->updateAttributes(['visible_by_stock' => $v, 'price_min' => $min, 'price_max' => $max]);
         $this->getCpuModel()->updateAttributes(['visible' => $v]);
+    }
+
+    public static function fasetsByBrands($brands)
+    {
+        $cat_id = 14;
+        $brands = implode(", ", $brands);
+
+        $q = (new \yii\db\Query())->from('goods_params as gp')
+            ->select('gp.param_id, gp.value')
+            ->innerJoin('goods g', 'gp.goods_id = g.id')
+            ->andWhere('g.brand_id = in (' . $brands . ')')
+            ->andWhere('g.cat_id = ' . $cat_id)
+            ->andWhere('g.visible_by_stock = 1')
+            ->andWhere('gp.param_id = in ("Color", "Size")')
+            ->groupBy('gp.param_id, gp.value')
+            ->all();
+
+        $a = 50;
+
     }
 
 }

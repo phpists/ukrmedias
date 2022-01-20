@@ -117,7 +117,7 @@ use yii\helpers\Url;
                             <div class="item js_goods" data-weight="<?php echo $dataModel->goodsModel->weight; ?>"
                                  data-volume="<?php echo $dataModel->goodsModel->volume; ?>">
                                 <div class="item_hover">
-                                    <div class="dimensions"
+                                    <div class="dimensions" title="<?= $dataModel->color ?>"
                                          onClick="GoodsPage_photoVariantClick('#preview_photo_<?php echo $photoModelId; ?>')">
                                         <?php if ($dataModel->color_code <> ''): ?>
                                             <div class="color">
@@ -130,8 +130,7 @@ use yii\helpers\Url;
                                             </div>
                                         <?php endif; ?>
                                         <?php
-                                        $color = explode('/', $dataModel->color);
-                                        echo isset($color[0]) ? $color[0] : $dataModel->color;
+                                        echo \app\models\Category::getDataModelColor($dataModel->color);
                                         ?>
                                     </div>
                                     <div class="product_code">

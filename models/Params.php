@@ -149,10 +149,15 @@ class Params extends \app\components\BaseActiveRecord {
 
     static public function getFilterList($cat_id) {
         $goodsParams = [];
-        $query = self::find()->from('goods_params')->where(new \yii\db\Expression('goods_id IN ( SELECT id FROM goods g WHERE cat_id=:cat_id AND ' . Goods::getPublicCondition() . ')'), [':cat_id' => $cat_id])->orderBy('value');
+        $query = self::find()
+            ->from('goods_params')
+            ->where(new \yii\db\Expression('goods_id IN ( SELECT id FROM goods g WHERE cat_id=:cat_id AND ' . Goods::getPublicCondition() . ')'), [':cat_id' => $cat_id])
+            ->orderBy('value');
+
         foreach ($query->asArray()->all() as $row) {
             $goodsParams[$row['param_id']][$row['hash']] = $row['value'];
         }
+
         $data = [];
         $query = self::find()->where(['in', 'id', array_keys($goodsParams)])->andWhere(['in', 'type_id', [self::TYPE_FILTER_ONLY, self::TYPE_GOODS_AND_FILTER]])->orderBy(['pos' => SORT_ASC]);
         foreach ($query->asArray()->all() as $param) {

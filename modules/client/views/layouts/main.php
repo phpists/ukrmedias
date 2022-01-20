@@ -47,8 +47,8 @@ $firm = Yii::$app->user->isGuest ? new Firms() : Yii::$app->user->identity->getF
                 <div class="cont">
                     <div class="nav">
                         <div class="links">
-                            <a href="<?php echo Url::to(['/client/preorders/index']); ?>" class="<?php if (preg_match('@^client/preorders/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Мої заявки</a>
-                            <a href="<?php echo Url::to(['/client/orders/index']); ?>" class="<?php if (preg_match('@^client/orders/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Мої замовлення</a>
+                            <a href="<?php echo Url::to(['/client/preorders/index']); ?>" class="<?php if (preg_match('@^client/preorders/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Мої замовлення</a>
+                            <a href="<?php echo Url::to(['/client/orders/index']); ?>" class="<?php if (preg_match('@^client/orders/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Мої накладні</a>
                             <a href="<?php echo Url::to(['/client/reports/index']); ?>" class="<?php if (preg_match('@^client/reports/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Звіти</a>
                             <a href="<?php echo Url::to(['/client/downloads/index']); ?>" class="<?php if (preg_match('@^client/downloads/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Завантаження</a>
                             <a href="<?php echo Url::to(['/client/feedback/index']); ?>" class="separator <?php if (preg_match('@^client/feedback/@', $route)): ?>Active<?php else: ?>notActive<?php endif; ?>">Зворотній зв'язок</a>

@@ -70,7 +70,7 @@ return [
             'class' => 'yii\web\UrlManager',
             'showScriptName' => false,
             'enablePrettyUrl' => true,
-            'baseUrl' => 'https://' . $domain,
+            'baseUrl' => 'http://' . $domain,
             'rules' => [
                 '/' => 'frontend/site/index',
                 '<action:(start|login2|login|registration-step1|registration-step2|logout)>' => 'frontend/site/<action>',

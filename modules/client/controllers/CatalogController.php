@@ -22,7 +22,13 @@ class CatalogController extends ClientController {
     public $enableCsrfValidation = false;
     public $brandModel;
 
+
     public function actionIndex($cpu, $brandCpu = null) {
+
+        if (isset($_POST['b'])) {
+            \App\Goods::fasetByBrands($_POST['b']);
+        }
+
         $this->categoryModel = $model = Cpu::findBy($cpu);
         if ($brandCpu !== null) {
             $this->brandModel = Cpu::findBy($brandCpu);
@@ -30,6 +36,9 @@ class CatalogController extends ClientController {
                 throw new \yii\web\HttpException(404);
             }
         }
+
+
+
         switch (get_class($model)):
             case 'app\models\Category':
                 if ($model->isLeaf()) {

@@ -219,8 +219,8 @@ $mobileMenu = $this->context->cats;
     <div class="dark_fond opac0" id="profile">
         <div class="profile_block">
             <?php echo $this->context->renderPartial('/cart/_upload_button', ['isMenu' => true]); ?>
-            <a href="<?php echo Url::to(['/client/preorders/index']); ?>">Мої заявки</a>
-            <a href="<?php echo Url::to(['/client/orders/index']); ?>">Мої замовлення</a>
+            <a href="<?php echo Url::to(['/client/preorders/index']); ?>">Мої замовлення</a>
+            <a href="<?php echo Url::to(['/client/orders/index']); ?>">Мої накладні</a>
             <a href="<?php echo Url::to(['/client/reports/index']); ?>">Звіти</a>
             <a href="<?php echo Url::to(['/client/downloads/index']); ?>">Завантаження</a>
             <a class="separator" href="<?php echo Url::to(['/client/feedback/index']); ?>">Зворотній зв'язок</a>

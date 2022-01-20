@@ -345,4 +345,9 @@ class Category extends \app\components\BaseActiveRecord {
         return self::$groupedList[$key];
     }
 
+    static public function getDataModelColor($color)
+    {
+        $color = explode('/', $color);
+        return isset($color[0]) ? $color[0] : $color;
+    }
 }
