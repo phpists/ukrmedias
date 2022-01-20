@@ -113,7 +113,7 @@ class DataHelper {
 
     static public function getCategoryData($cat_id) {
         $data = Yii::$app->cache->get("_category_view_data_{$cat_id}");
-        if (true) {
+        if ($data === false) {
             $category = Category::findOne($cat_id);
             $data = self::setCategoryData($category);
         }

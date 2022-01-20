@@ -114,7 +114,7 @@ use app\models\GoodsFilter;
                         </svg>
                         <div class="drop">
                             <h6>Пошук</h6>
-                            <div class="checkbox_cont">
+                            <div class="checkbox_cont" id="param_<?= $param_id ?>">
                                 <?php foreach ($data['values'] as $value => $title): ?>
                                     <label class="checkbox">
                                         <?php echo $filter->checkbox(GoodsFilter::$params, [$param_id => $value]); ?>

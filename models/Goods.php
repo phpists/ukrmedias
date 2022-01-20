@@ -417,23 +417,40 @@ class Goods extends \app\components\BaseActiveRecord
         $this->getCpuModel()->updateAttributes(['visible' => $v]);
     }
 
-    public static function fasetsByBrands($brands)
+    public static function fasetsByBrands($brands, $category_id)
     {
-        $cat_id = 14;
-        $brands = implode(", ", $brands);
-
-        $q = (new \yii\db\Query())->from('goods_params as gp')
-            ->select('gp.param_id, gp.value')
+        $query = (new \yii\db\Query())->from('goods_params as gp')
+            ->select('gp.param_id, gp.value, gp.hash')
             ->innerJoin('goods g', 'gp.goods_id = g.id')
-            ->andWhere('g.brand_id = in (' . $brands . ')')
-            ->andWhere('g.cat_id = ' . $cat_id)
-            ->andWhere('g.visible_by_stock = 1')
-            ->andWhere('gp.param_id = in ("Color", "Size")')
-            ->groupBy('gp.param_id, gp.value')
-            ->all();
+            ->where([
+                'g.cat_id' => $category_id,
+                'g.visible_by_stock' => 1,
+                'gp.param_id' => ["Color", "Size"],
+            ])
+            ->groupBy('gp.param_id, gp.value');
 
-        $a = 50;
+        if (count($brands)){
+            $query->andWhere([
+                'g.brand_id' => $brands,
+            ]);
+        }
 
+        $facets = $query->all();
+
+        $arr = [];
+        foreach ($facets as $item) {
+            $key = $item['param_id'];
+            $value = $item['value'];
+            $hash = $item['hash'];
+
+            $arr[$key][] = [
+                'id' => $hash,
+                'value' => $value
+            ];
+        }
+
+
+        return $arr;
     }
 
 }

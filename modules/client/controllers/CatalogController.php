@@ -25,10 +25,6 @@ class CatalogController extends ClientController {
 
     public function actionIndex($cpu, $brandCpu = null) {
 
-        if (isset($_POST['b'])) {
-            \App\Goods::fasetByBrands($_POST['b']);
-        }
-
         $this->categoryModel = $model = Cpu::findBy($cpu);
         if ($brandCpu !== null) {
             $this->brandModel = Cpu::findBy($brandCpu);
@@ -37,16 +33,21 @@ class CatalogController extends ClientController {
             }
         }
 
-
+        $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
 
         switch (get_class($model)):
             case 'app\models\Category':
                 if ($model->isLeaf()) {
                     $filter = new GoodsFilter($model, $brandCpu === null ? null : $this->brandModel->id);
                     if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-                        return $this->renderPartial('_filter_result', [
+                        $html = $this->renderPartial('_filter_result', [
                                     'model' => $model,
                                     'filter' => $filter,
+                        ]);
+
+                        return $this->asJson([
+                            'html' => $html,
+                            'facets' => $facets
                         ]);
                     }
                     $categoryData = DataHelper::getCategoryData($model->id);

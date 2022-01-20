@@ -273,7 +273,7 @@ class GoodsFilter {
                     window.GoodsFilterBefore();
                 }
                 $.post(url, $(form).serialize(), function(resp){
-                    $("#' . $this->containerId . '").html(resp);
+                    parseResponse("' . $this->containerId  . '", resp);
                     if(typeof window.GoodsFilterAfter === "function"){
                         window.GoodsFilterAfter();
                     }

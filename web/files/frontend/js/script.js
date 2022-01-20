@@ -751,3 +751,29 @@ $(document).on("click", "#copy", function (e) {
 //        window.location.reload(true);
 //    }
 //});
+
+
+function parseResponse(id, resp) {
+    $("#" + id).html(resp['html']);
+
+    var item = `<label class="checkbox">
+                <input type="checkbox" id="p__olor____58f04cb77c4587fd0846c58fd0aea634" name="p[Color][]" value="58f04cb77c4587fd0846c58fd0aea634">                                        <span>бежевий/beige</span>
+                </label>`;
+
+
+    console.log(resp['facets']);
+
+    $.each(resp['facets'], function (param, items) {
+        var s = '';
+        $.each(items, function (idx, item) {
+            s += `<label class="checkbox">
+                <input type="checkbox" name="p[${param}][]" value="${item['id']}">                                        
+                <span>${item['value']}</span>
+                </label>`;
+        });
+
+        $('#param_' + param).html(s);
+    });
+
+
+}
