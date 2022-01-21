@@ -11,7 +11,9 @@ nbproject
 
 # windows thumbnail cache
 Thumbs.db
-
+/web
+/runtime
+/config/web.php
 # composer vendor dir
 /vendor
 

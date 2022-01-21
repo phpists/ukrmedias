@@ -756,24 +756,44 @@ $(document).on("click", "#copy", function (e) {
 function parseResponse(id, resp) {
     $("#" + id).html(resp['html']);
 
-    var item = `<label class="checkbox">
-                <input type="checkbox" id="p__olor____58f04cb77c4587fd0846c58fd0aea634" name="p[Color][]" value="58f04cb77c4587fd0846c58fd0aea634">                                        <span>бежевий/beige</span>
-                </label>`;
-
-
-    console.log(resp['facets']);
-
     $.each(resp['facets'], function (param, items) {
+
+        //console.log('items', items);
+
+        var checkedItems = [];
+
+        var checkedOpts = $('#param_' + param).find('label.checkbox input:checked');
+
+        $.each(checkedOpts, function(_idx, el) {
+            checkedItems.push($(el).val().trim());
+        });
+
+
         var s = '';
         $.each(items, function (idx, item) {
-            s += `<label class="checkbox">
-                <input type="checkbox" name="p[${param}][]" value="${item['id']}">                                        
-                <span>${item['value']}</span>
-                </label>`;
+
+            var elId = "p_" + param + "_" + item['id'];
+
+            var isChecked = checkedItems.indexOf(item['id']) > -1;
+
+            if (isChecked) {
+
+                s += `<label class="checkbox">
+					<input id="${elId}" type="checkbox" name="p[${param}][]" value="${item['id']}" checked="checked">                                        
+					<span>${item['value']}</span>
+					</label>`;
+
+            } else {
+                s += `<label class="checkbox">
+					<input id="${elId}" type="checkbox" name="p[${param}][]" value="${item['id']}">                                        
+					<span>${item['value']}</span>
+					</label>`;
+            }
+
+
         });
 
         $('#param_' + param).html(s);
     });
-
-
 }
+
