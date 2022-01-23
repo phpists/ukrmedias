@@ -2,28 +2,27 @@
 
 namespace app\modules\client\controllers;
 
-use yii\helpers\Url;
-use \Yii;
 use app\components\ClientController;
-use app\components\Misc;
-use app\models\Cpu;
-use app\models\Category;
-use app\models\Goods;
 use app\models\Brands;
-use app\models\GoodsFilter;
-use app\models\Params;
+use app\models\Category;
+use app\models\Cpu;
 use app\models\DataHelper;
+use app\models\Goods;
+use app\models\GoodsFilter;
 use app\models\PreOrders;
 use app\models\Promo;
+use Yii;
 
-class CatalogController extends ClientController {
+class CatalogController extends ClientController
+{
 
     public $layout = '@app/modules/client/views/layouts/catalog.php';
     public $enableCsrfValidation = false;
     public $brandModel;
 
 
-    public function actionIndex($cpu, $brandCpu = null) {
+    public function actionIndex($cpu, $brandCpu = null)
+    {
 
         $this->categoryModel = $model = Cpu::findBy($cpu);
         if ($brandCpu !== null) {
@@ -33,17 +32,18 @@ class CatalogController extends ClientController {
             }
         }
 
-        $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
-
         switch (get_class($model)):
             case 'app\models\Category':
                 if ($model->isLeaf()) {
                     $filter = new GoodsFilter($model, $brandCpu === null ? null : $this->brandModel->id);
                     if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
+
                         $html = $this->renderPartial('_filter_result', [
-                                    'model' => $model,
-                                    'filter' => $filter,
+                            'model' => $model,
+                            'filter' => $filter,
                         ]);
+
+                        $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
 
                         return $this->asJson([
                             'html' => $html,
@@ -51,6 +51,9 @@ class CatalogController extends ClientController {
                         ]);
                     }
                     $categoryData = DataHelper::getCategoryData($model->id);
+
+                    $brands = $filter->get(GoodsFilter::$brands);
+                    $facets = Goods::fasetsByBrands($brands, $model->id);
                     $html = $this->render('category_leaf', [
                         'model' => $model,
                         'filter' => $filter,
@@ -58,6 +61,7 @@ class CatalogController extends ClientController {
                         'params' => $categoryData['params'],
                         'brandCpu' => $brandCpu,
                         'cats' => [],
+                        'facets' => $facets
                     ]);
                 } else {
                     GoodsFilter::resetStateDirect();
@@ -92,7 +96,8 @@ class CatalogController extends ClientController {
         return $html;
     }
 
-    public function actionSearch($q) {
+    public function actionSearch($q)
+    {
         if ($q == '') {
             $ref = getenv('HTTP_REFERER');
             if ($ref == '') {
@@ -105,42 +110,44 @@ class CatalogController extends ClientController {
         $filter = new GoodsFilter($model, null, $q);
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
             return $this->renderPartial('_filter_result', [
-                        'model' => $model,
-                        'filter' => $filter,
+                'model' => $model,
+                'filter' => $filter,
             ]);
         }
         return $this->render('category_leaf', [
-                    'model' => $model,
-                    'filter' => $filter,
-                    'brands' => Brands::keyval(),
-                    'params' => [],
-                    'brand_id' => null,
-                    'cats' => [],
+            'model' => $model,
+            'filter' => $filter,
+            'brands' => Brands::keyval(),
+            'params' => [],
+            'brand_id' => null,
+            'cats' => [],
         ]);
     }
 
-    public function actionNovelty() {
+    public function actionNovelty()
+    {
         $model = Category::findOne(Category::ROOT_ID);
         $filter = new GoodsFilter($model, null, null, false, true);
         $model->title = 'Новинки';
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
             return $this->renderPartial('_filter_result', [
-                        'model' => $model,
-                        'filter' => $filter,
+                'model' => $model,
+                'filter' => $filter,
             ]);
         }
         $categoryData = DataHelper::getCategoryData($model->id);
         return $this->render('category_leaf', [
-                    'model' => $model,
-                    'filter' => $filter,
-                    'brands' => $categoryData['brandsNovelty'],
-                    'params' => [],
-                    'brand_id' => null,
-                    'cats' => $categoryData['catsNovelty'],
+            'model' => $model,
+            'filter' => $filter,
+            'brands' => $categoryData['brandsNovelty'],
+            'params' => [],
+            'brand_id' => null,
+            'cats' => $categoryData['catsNovelty'],
         ]);
     }
 
-    public function actionPromo($id = null) {
+    public function actionPromo($id = null)
+    {
         if ($id !== null) {
             $promo = Promo::findOneActual($id);
             if ($promo === null) {
@@ -152,18 +159,18 @@ class CatalogController extends ClientController {
         $model->title = 'Акційні товари';
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
             return $this->renderPartial('_filter_result', [
-                        'model' => $model,
-                        'filter' => $filter,
+                'model' => $model,
+                'filter' => $filter,
             ]);
         }
         $promoData = DataHelper::getPromoData($id);
         return $this->render('category_leaf', [
-                    'model' => $model,
-                    'filter' => $filter,
-                    'brands' => $promoData['brands'],
-                    'params' => [],
-                    'brand_id' => null,
-                    'cats' => $promoData['cats'],
+            'model' => $model,
+            'filter' => $filter,
+            'brands' => $promoData['brands'],
+            'params' => [],
+            'brand_id' => null,
+            'cats' => $promoData['cats'],
         ]);
     }
 

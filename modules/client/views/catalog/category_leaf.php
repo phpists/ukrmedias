@@ -106,7 +106,7 @@ use app\models\GoodsFilter;
                         </div>
                     </div>
                 <?php endforeach; ?>
-                <?php foreach ($params as $param_id => $data): ?>
+                <?php foreach ($params as $param_id => $data) { ?>
                     <div class="item">
                         <p class="js_param_title"><?php echo $data['title']; ?></p>
                         <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,16 +115,28 @@ use app\models\GoodsFilter;
                         <div class="drop">
                             <h6>Пошук</h6>
                             <div class="checkbox_cont" id="param_<?= $param_id ?>">
-                                <?php foreach ($data['values'] as $value => $title): ?>
+                                <?php foreach ($data['values'] as $value => $title){
+
+                                    $f = $facets[$param_id] ?? [];
+                                    if (isset($facets[$param_id])){
+                                        $values = array_column($facets[$param_id], 'id');
+                                        $is = in_array($value, $values);
+
+                                        if (!$is){
+                                            continue;
+                                        }
+                                    }
+
+                                    ?>
                                     <label class="checkbox">
                                         <?php echo $filter->checkbox(GoodsFilter::$params, [$param_id => $value]); ?>
                                         <span><?php echo $title; ?></span>
                                     </label>
-                                <?php endforeach; ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                <?php } ?>
             </div>
         </div>
         <?php
