@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 class Brands extends \app\components\BaseActiveRecord
 {
@@ -79,18 +80,19 @@ class Brands extends \app\components\BaseActiveRecord
 
     static public function changeVisibleBrandGoods($brand, $visible)
     {
+        $query = new Query;
 
-        $goods = (new \yii\db\Query)
-            ->from('goods as g')
-            ->select('g.id')
-            ->leftJoin('cpu', 'g.brand_id = cpu.id')
-            ->where(['cpu.id' => $brand['id']])
-            ->distinct()
+        $query->select('goods.id')
+            ->from('goods')
+            ->leftJoin('cpu', 'goods.brand_id = cpu.id')
+            ->where(['cpu.id' => $brand['id']]);
+
+        $goodsIds = $query->all();
+
+        Yii::$app->db->createCommand()
+            ->update('cpu', ['visible' => $visible], ['in', 'id', $goodsIds])
             ->execute();
 
-//        Yii::$app->db->createCommand()->update('goods', ['price' => $data['price']], ['id' => $data['id']])->execute();
-
-        $a = 50;
     }
 
     public function saveModel()
