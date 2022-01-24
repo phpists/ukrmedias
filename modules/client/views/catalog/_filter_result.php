@@ -12,7 +12,7 @@
         'itemView' => '_goods_item',
         'pager' => [
             'options' => ['class' => 'page_choise'],
-            'linkContainerOptions' => ['class' => ''],
+            'linkContainerOptions' => ['class' => 'pagination_link'],
             'activePageCssClass' => 'col_bdr',
             'linkOptions' => ['class' => ''],
             'disabledListItemSubTagOptions' => ['class' => ''],

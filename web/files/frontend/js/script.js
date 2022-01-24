@@ -797,3 +797,17 @@ function parseResponse(id, resp) {
     });
 }
 
+/**
+ * Pagination scroll up page
+ */
+$(document).on("click", ".pagination_link", function (e) {
+    e.preventDefault();
+
+    window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+
+});
+

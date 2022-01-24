@@ -38,6 +38,9 @@ $form = AdminActiveForm::begin(['errorSummaryModels' => [$model]]);
             </div>
         </div>
     </div>
+    <div class="col-sm-12 col-md-3">
+        <?php echo $form->field($model->getCpuModel(), 'visible')->dropDownList($model::$valuesTrueFalse); ?>
+    </div>
 </div>
 <br/>
 <div class="fixed-column">

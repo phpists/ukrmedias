@@ -5,12 +5,14 @@ namespace app\models;
 use Yii;
 use yii\data\ActiveDataProvider;
 
-class Brands extends \app\components\BaseActiveRecord {
+class Brands extends \app\components\BaseActiveRecord
+{
 
     use \app\components\T_CpuModel;
     use \app\components\T_FileAttributesMisc;
 
-    public function filesConfig() {
+    public function filesConfig()
+    {
         return array(
             'logo' => [
                 'scenario' => ModelFiles::SCENARIO_IMG, 'label' => 'Логотип 280x280px', 'resize' => [
@@ -21,11 +23,13 @@ class Brands extends \app\components\BaseActiveRecord {
         );
     }
 
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'brands';
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['title'], 'required'],
             [['title'], 'string', 'max' => 45],
@@ -33,13 +37,15 @@ class Brands extends \app\components\BaseActiveRecord {
         ];
     }
 
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'title' => 'Найменування',
         ];
     }
 
-    public function search() {
+    public function search()
+    {
         $query = self::find()->orderBy(['title' => SORT_ASC]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -52,11 +58,13 @@ class Brands extends \app\components\BaseActiveRecord {
         return $dataProvider;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    static public function import($attrs) {
+    static public function import($attrs)
+    {
         $model = self::findModel($attrs['brand_id']);
         $model->setAttributes(['id' => $attrs['brand_id'], 'title' => $attrs['brand']], false);
         $model->getCpuModel(true);
@@ -69,20 +77,43 @@ class Brands extends \app\components\BaseActiveRecord {
         return $model;
     }
 
-    public function saveModel() {
+    static public function changeVisibleBrandGoods($brand, $visible)
+    {
+
+        $goods = (new \yii\db\Query)
+            ->from('goods as g')
+            ->select('g.id')
+            ->leftJoin('cpu', 'g.brand_id = cpu.id')
+            ->where(['cpu.id' => $brand['id']])
+            ->distinct()
+            ->execute();
+
+//        Yii::$app->db->createCommand()->update('goods', ['price' => $data['price']], ['id' => $data['id']])->execute();
+
+        $a = 50;
+    }
+
+    public function saveModel()
+    {
         $res = $this->validate() && $this->CpuModel->validate();
         if (!$res) {
             return $res;
         }
         $res = $this->save(false);
         if ($res) {
-            $this->CpuModel->visible = 1;
+
+            $visible = $_POST['Cpu']['visible'];
+            $this->CpuModel->visible = $visible ?? 1;
+
+            self::changeVisibleBrandGoods($this, $visible);
+
             $res = $this->CpuModel->saveModel($this);
         }
         return $res;
     }
 
-    public function deleteModel() {
+    public function deleteModel()
+    {
         $res = is_numeric($this->delete());
         if ($res) {
             Cpu::deleteAll(['id' => $this->id, 'class' => get_called_class()]);
@@ -90,12 +121,21 @@ class Brands extends \app\components\BaseActiveRecord {
         return $res;
     }
 
-    static public function keyval() {
+    static public function keyval()
+    {
         return Yii::$app->db->getMasterPdo()->query('SELECT DISTINCT id,title FROM ' . self::tableName() . ' ORDER BY title')->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 
-    static public function findList() {
-        $ids = (new \yii\db\Query)->select('brand_id')->distinct()->from('brand_cats_visibility')->column();
+    static public function findList()
+    {
+        $ids = (new \yii\db\Query)
+            ->from('brand_cats_visibility as bcv')
+            ->select('bcv.brand_id')
+            ->leftJoin('cpu', 'bcv.brand_id = cpu.id')
+            ->where(['cpu.visible' => 1])
+            ->distinct()
+            ->column();
+
         return self::find()->where(['in', 'id', $ids])->all();
     }
 
@@ -105,7 +145,8 @@ class Brands extends \app\components\BaseActiveRecord {
 //        return $query->fetchAll(\PDO::FETCH_KEY_PAIR);
 //    }
 
-    static public function keyvalByIds($ids) {
+    static public function keyvalByIds($ids)
+    {
         if (count($ids) === 0) {
             return [];
         }
@@ -118,12 +159,14 @@ class Brands extends \app\components\BaseActiveRecord {
         return $query->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 
-    static public function keyvalAlt($where) {
+    static public function keyvalAlt($where)
+    {
         $query = Yii::$app->db->getMasterPdo()->query('SELECT DISTINCT id,title FROM ' . self::tableName() . ' WHERE id IN (SELECT DISTINCT brand_id FROM goods g WHERE ' . $where . ' AND ' . Goods::getPublicCondition() . ') ORDER BY title');
         return $query->fetchAll(\PDO::FETCH_KEY_PAIR);
     }
 
-    public function findCategories($category) {
+    public function findCategories($category)
+    {
         $query = (new \yii\db\Query)->select('cat_id')->from('brand_cats_visibility')->where(['brand_id' => $this->id]);
         $query->andWhere(['in', 'cat_id', $category->getIdsDown()]);
         $data = $category->findChildrenAlt($query->column());

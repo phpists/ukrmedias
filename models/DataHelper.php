@@ -2,35 +2,38 @@
 
 namespace app\models;
 
-use yii\helpers\Url;
-use yii\helpers\BaseFileHelper;
-use Yii;
 use app\components\Misc;
-use app\components\AutoLogin;
 use app\components\TurboSms;
+use Yii;
+use yii\helpers\BaseFileHelper;
 
-class DataHelper {
+class DataHelper
+{
 
     const HASH_KEY = 'qJxzh5dxs5eRtuO0Skl2peeEjmhgl4IG';
     const PAGE_SIZE = 20;
 
     static public $user;
 
-    static public function unsetLimits() {
+    static public function unsetLimits()
+    {
         set_time_limit(0);
         ini_set('memory_limit', '4G');
     }
 
-    static public function updateStock($data) {
+    static public function updateStock($data)
+    {
         Yii::$app->db->createCommand()->update('goods', ['price' => $data['price']], ['id' => $data['id']])->execute();
         Yii::$app->db->createCommand()->update('goods_variants', ['qty' => $data['qty'], 'qty_alt' => $data['qty_alt']], ['goods_id' => $data['id'], 'variant_id' => $data['variant_id']])->execute();
     }
 
-    static public function updatePrices($data) {
+    static public function updatePrices($data)
+    {
         Yii::$app->db->createCommand()->update('goods_prices', ['price' => $data['price']], ['goods_id' => $data['id'], 'price_type_id' => $data['price_type_id']])->execute();
     }
 
-    static public function setPromoGoods($id = null) {
+    static public function setPromoGoods($id = null)
+    {
         $promoModels = $id === null ? Promo::initActual() : [$id => Promo::findOne($id)];
         $actual = array_keys($promoModels);
         if (count($actual) === 0) {
@@ -62,7 +65,8 @@ class DataHelper {
         }
     }
 
-    static public function closeOrders() {
+    static public function closeOrders()
+    {
         Misc::iterator(Orders::find()->where(['status_id' => Orders::STATUS_READY])->andWhere('status_date=NOW()-INTERVAL 9 DAY'), function ($dataModel) {
             $firm = Firms::findOne($dataModel->firm_id);
             foreach (Users::find()->select('email')->where(['firm_id' => $dataModel->firm_id, 'notify' => 1, 'active' => 1])->andWhere(['<>', 'email', ''])->column() as $email) {
@@ -83,7 +87,8 @@ class DataHelper {
         });
     }
 
-    static public function clean() {
+    static public function clean()
+    {
         TurboSms::clean();
         foreach (BaseFileHelper::findFiles(Yii::$app->getRuntimePath() . '/attachments') as $file) {
             if (filemtime($file) < strtotime('-27 day')) {
@@ -100,7 +105,8 @@ class DataHelper {
         }
     }
 
-    static public function notifyOrderStatus($order, $oldStatusTxt) {
+    static public function notifyOrderStatus($order, $oldStatusTxt)
+    {
         $url = 'https://' . getenv('SERVER_NAME') . '/client/orders/view?id=' . $order->id;
         foreach (Users::find()->select('email')->where(['firm_id' => $order->firm_id, 'notify' => 1, 'active' => 1])->andWhere(['<>', 'email', ''])->column() as $email) {
             Letters::setupTask([
@@ -111,35 +117,66 @@ class DataHelper {
         }
     }
 
-    static public function getCategoryData($cat_id) {
+    static public function getCategoryData($cat_id)
+    {
         $data = Yii::$app->cache->get("_category_view_data_{$cat_id}");
-        if ($data === false) {
-            $category = Category::findOne($cat_id);
-            $data = self::setCategoryData($category);
-        }
+//        if ($data === false) {
+        $category = Category::findOne($cat_id);
+        $data = self::setCategoryData($category);
+//        }
         return $data;
     }
 
-    static public function setCategoryData($category) {
+    static public function setCategoryData($category)
+    {
         $catIds = $category->getIdsDown(true, false);
-        $brandIds = Goods::find()->select('brand_id')->distinct()->alias('g')->where(['in', 'cat_id', $catIds])->andWhere(Goods::getPublicCondition())->column();
-        $brandIdsNovelty = Goods::find()->select('brand_id')->distinct()->alias('g')->where(['in', 'cat_id', $catIds])->andWhere(Goods::getPublicCondition())->andWhere('has_new=1')->column();
+
+        $brandIds = Goods::find()
+            ->select('brand_id')
+            ->distinct()
+            ->alias('g')
+            ->where(['in', 'cat_id', $catIds])
+            ->andWhere(Goods::getPublicCondition())
+            ->column();
+
+
+        $brandIdsNovelty = Goods::find()
+            ->select('brand_id')
+            ->distinct()
+            ->alias('g')
+            ->where(['in', 'cat_id', $catIds])
+            ->andWhere(Goods::getPublicCondition())
+            ->andWhere('has_new=1')
+            ->column();
+
         Yii::$app->db->createCommand('UPDATE category SET visible_by_goods=:v WHERE id=:id', [':v' => count($brandIds) > 0, ':id' => $category->id])->execute();
-        foreach ($brandIds as $brand_id) {
+
+        foreach ($brandIds as $k => $brand_id) {
+
+            $brandCpu = Cpu::find()->where(['id' => $brand_id])->one()->toArray();
+
+            if (!$brandCpu['visible']) {
+                unset($brandIds[$k]);
+            }
+
             Yii::$app->db->createCommand('INSERT IGNORE INTO brand_cats_visibility (brand_id, cat_id) VALUES(:brand_id,:cat_id)', [':brand_id' => $brand_id, ':cat_id' => $category->id])->execute();
         }
+
         Yii::$app->db->createCommand()->delete('brand_cats_visibility', ['AND', 'cat_id=:cat_id', ['NOT IN', 'brand_id', $brandIds]], ['cat_id' => $category->id])->execute();
+
         $data = [
             'brands' => Brands::keyvalByIds($brandIds),
             'params' => Params::getFilterList($category->id),
             'catsNovelty' => Category::getGroupedList('has_new=1'),
             'brandsNovelty' => Brands::keyvalByIds($brandIdsNovelty),
         ];
+
         Yii::$app->cache->set("_category_view_data_{$category->id}", $data, 0);
         return $data;
     }
 
-    static public function setPromoData($promo_id) {
+    static public function setPromoData($promo_id)
+    {
         if ($promo_id <> '') {
             $goodsIds = (new \yii\db\Query)->select('goods_id')->from('promo_goods')->where(['id' => $promo_id])->column();
             $brandIds = (new \yii\db\Query)->select('brand_id')->distinct()->from(['g' => 'goods'])->where(['IN', 'id', $goodsIds])->andWhere(Goods::getPublicCondition())->andWhere('has_promo=1')->column();
@@ -156,7 +193,8 @@ class DataHelper {
         return $data;
     }
 
-    static public function getPromoData($id) {
+    static public function getPromoData($id)
+    {
         $data = Yii::$app->cache->get("_promo_view_data_{$id}");
         if ($data === false) {
             $data = self::setPromoData($id);
@@ -164,11 +202,13 @@ class DataHelper {
         return $data;
     }
 
-    static public function getNoveltyQty() {
+    static public function getNoveltyQty()
+    {
         return Goods::find()->select('COUNT(*)')->alias('g')->where(Goods::getPublicCondition())->andWhere('id IN(SELECT goods_id FROM goods_variants WHERE is_new=1)')->cache(HTML_CACHE_DURATION)->scalar();
     }
 
-    static public function updateGoodsData($model) {
+    static public function updateGoodsData($model)
+    {
         $qty = 0;
         $prices = [$model->price];
         foreach (Variants::getListGrouped([$model->id => $model], false) as $size => $variants) {

@@ -199,6 +199,7 @@ class Goods extends \app\components\BaseActiveRecord
         }
         $res = $this->save(false, ['video_1', 'video_2']);
         if ($res) {
+            $this->CpuModel->visible = $_POST['Cpu']['visible'] ?? 1;
             $res = $this->CpuModel->saveModel($this);
         }
         return $res;
