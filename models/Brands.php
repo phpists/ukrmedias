@@ -134,7 +134,7 @@ class Brands extends \app\components\BaseActiveRecord
             ->from('brand_cats_visibility as bcv')
             ->select('bcv.brand_id')
             ->leftJoin('cpu', 'bcv.brand_id = cpu.id')
-            ->where(['cpu.visible' => 1])
+            ->where(['cpu.visible_tile' => 1])
             ->distinct()
             ->column();
 

@@ -15,6 +15,7 @@ class Cpu extends \app\components\BaseActiveRecord {
     public function rules() {
         return [
             ['visible', 'in', 'range' => array_keys(self::$valuesTrueFalse)],
+            ['visible_tile', 'in', 'range' => array_keys(self::$valuesTileTrueFalse)],
             [['cpu'], 'string', 'max' => 300],
             [['meta_title', 'meta_keywords', 'meta_descr'], 'string', 'max' => 255],
             ['cpu', 'unique', 'except' => 'import'],
@@ -27,7 +28,8 @@ class Cpu extends \app\components\BaseActiveRecord {
             'meta_title' => 'Заголовок сторінки',
             'meta_keywords' => 'meta-ключові слова',
             'meta_descr' => 'meta-опис',
-            'visible' => 'Відображення',
+            'visible' => 'Відображення (фільтри, товари)',
+            'visible_tile' => 'Показати плитку бренду',
         ];
     }
 

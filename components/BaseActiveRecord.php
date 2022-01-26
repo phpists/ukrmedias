@@ -8,6 +8,8 @@ use Yii;
 abstract class BaseActiveRecord extends \yii\db\ActiveRecord {
 
     static public $valuesTrueFalse = array('0' => 'ні', '1' => 'так');
+    static public $valuesTileTrueFalse = array('0' => 'ні', '1' => 'так');
+
     public $oldAttributes = array();
 
     public function beforeSave($insert) {

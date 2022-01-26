@@ -42,6 +42,13 @@ $form = AdminActiveForm::begin(['errorSummaryModels' => [$model]]);
         <?php echo $form->field($model->getCpuModel(), 'visible')->dropDownList($model::$valuesTrueFalse); ?>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-12 col-md-6">
+        <div class="form-group field-category-title">
+            <?php echo $form->field($model->getCpuModel(), 'visible_tile')->dropDownList($model::$valuesTileTrueFalse); ?>
+        </div>
+    </div>
+</div>
 <br/>
 <div class="fixed-column">
     <div class="form-group mt-5 mb-5">
