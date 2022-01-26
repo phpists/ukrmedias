@@ -37,7 +37,9 @@ class XML_PriceUa extends \app\components\XmlDocument {
         $goods = $this->el('items');
         $category = Category::findModel(@$this->attributes['cat_id']);
         $filter = new GoodsFilter($category);
-        foreach ($filter->getQuery($this->attributes['price_type_id'])->all() as $model) {
+        $modelsItems = Yii::$app->cache->get("_download_model_goods");
+
+        foreach ($modelsItems as $model) {
             $item = $this->el('item', null, ['id' => $model->id, 'selling_type' => 'u']);
             if (isset($this->attributes['name'])) {
                 $item->appendChild($this->el('name', $model->getTitle()));

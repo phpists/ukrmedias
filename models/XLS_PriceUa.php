@@ -34,6 +34,8 @@ class XLS_PriceUa {
 
     static public function create($file, $title, $filterData) {
         try {
+            $modelsItems = Yii::$app->cache->get("_download_model_goods");
+
             $spreadsheet = new Spreadsheet();
             self::$sheet = $spreadsheet->getActiveSheet();
             self::$sheet->setTitle($title);
@@ -51,7 +53,8 @@ class XLS_PriceUa {
             }
             $category = Category::findModel(@$filterData['cat_id']);
             $filter = new GoodsFilter($category);
-            foreach ($filter->getQuery(@$filterData['price_type_id'])->all() as $model) {
+
+            foreach ($modelsItems as $model) {
                 $values = [];
                 if (isset($filterData['name'])) {
                     $values[] = $model->getTitle();

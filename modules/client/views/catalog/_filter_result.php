@@ -2,6 +2,10 @@
     <?php
     #$url = $filter->getDirectUrl();
     #$urlBtn = $url === false ? '' : '<div class="direct-url-control"><input type="text" value="' . $url . '" readonly/><span id="copy" class="direct-url-btn">Копіювати</span></div>';
+
+    $modelGoods = $filter->getQueryModelItems(Yii::$app->user->identity->getFirm()->price_type_id)->all();
+    Yii::$app->cache->set("_download_model_goods", $modelGoods, 0);
+
     echo \yii\widgets\ListView::widget([
         'dataProvider' => $filter->getDataProvider(Yii::$app->user->identity->getFirm()->price_type_id),
         'layout' => '<div class="cont">{items}</div>{pager}',

@@ -196,6 +196,7 @@ class GoodsFilter {
     }
 
     public function getDataProvider($price_type_id) {
+
         return new ActiveDataProvider([
             'query' => $this->getQuery($price_type_id),
             'pagination' => [
@@ -203,6 +204,11 @@ class GoodsFilter {
             ],
             'sort' => false,
         ]);
+    }
+
+    public function getQueryModelItems($price_type_id)
+    {
+        return $this->getQuery($price_type_id);
     }
 
     public function saveState($data = null) {
