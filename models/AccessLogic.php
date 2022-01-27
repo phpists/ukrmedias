@@ -36,7 +36,7 @@ class AccessLogic
 
     static public function get($key = null)
     {
-        return Yii::$app->session['login-as'] !== NULL ? Yii::$app->session['login-as'][$key] : Yii::$app->session['login-as'];
+        return Yii::$app->session['login-as'] !== NULL ? Yii::$app->session['login-as'] : Yii::$app->session['login-as'][$key];
     }
 
     static public function resetLoginAs()
