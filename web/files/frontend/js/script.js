@@ -80,6 +80,22 @@ $("#js_download").click(function () {
         });
     });
 });
+$("#js_download_with_image").click(function () {
+    var $modal = $('#modal-download-with-image').removeClass('opac0').addClass('opac1');
+    $modal.find("a").unbind().bind("click", function (e) {
+        e.preventDefault();
+        var $footer = $modal.find("div.footer").hide();
+        var $indicator = $("#js_upload_indicator").show();
+        $.post($(this).attr("href"), $(this).closest("form").serialize(), function (url) {
+            if (/download/.test(url)) {
+                $modal.removeClass('opac1').addClass('opac0');
+            }
+            $footer.show();
+            $indicator.hide();
+            location.href = url;
+        });
+    });
+});
 $(document)
         .on("dblclick", 'div.alert', function () {
             if ($(this).hasClass("skip-click")) {

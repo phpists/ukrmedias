@@ -79,6 +79,23 @@ class DataController extends \app\components\ClientController {
         return $ref;
     }
 
+    public function actionDownloadExcelPhoto($id, $ref, $download = null) {
+
+        $file = RuntimeFiles::getUid('XML_PriceUa', 'price_ua.xls');
+        $category = Category::findModel($id);
+        if (Yii::$app->request->isAjax) {
+            $filter = (array) Yii::$app->request->post('XML_PriceUa');
+            $filter['price_type_id'] = Yii::$app->user->identity->getFirm()->price_type_id;
+            $res = XLS_PriceUa::createWithPhoto($file, $category->title, $filter);
+            if ($res) {
+                return Url::to(['download-excel', 'id' => $id, 'ref' => $ref, 'download' => 1]);
+            }
+        } elseif ($download && is_file($file)) {
+            return Misc::sendFile($file, $category->title . '.xls');
+        }
+        return $ref;
+    }
+
     public function actionCitiesOptions($id) {
         $options = ['prompt' => ''];
         return Html::renderSelectOptions('', NP_CitiesNp::keyval($id), $options);

@@ -454,4 +454,46 @@ class Goods extends \app\components\BaseActiveRecord
         return $arr;
     }
 
+    public function getVisibleStockCount()
+    {
+       $goodSizes = $this->getVariantsGrouped();
+
+       $i = 0;
+       foreach ($goodSizes as $size){
+           foreach ($size as $item){
+               if (isset($item)){
+                   $i++;
+               }
+           }
+       }
+
+       return $i;
+    }
+
+    public function getVisibleStockItems()
+    {
+        $values = [];
+        foreach ($this->getVariantsGrouped() as $goodSizes){
+            foreach ($goodSizes as $size){
+                $a = 50;
+
+//                $question = OrdersDetails::find()->where(['bar_code' => $size->barCode])->groupBy('bar_code')->one();
+
+                $values[] = [
+                    $size['color'],
+                    '',
+                    $size->barCode,
+                    '',
+                    20,
+                    65,
+                    ''
+                ];
+            }
+        }
+
+        return $values;
+    }
+
+
+
 }

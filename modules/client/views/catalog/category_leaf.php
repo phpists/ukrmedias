@@ -139,6 +139,7 @@ use app\models\GoodsFilter;
                 <?php } ?>
             </div>
         </div>
+        <h3>Класичні</h3>
         <?php
         $filter->beginResult();
         echo $this->context->renderPartial('_filter_result', ['model' => $model, 'filter' => $filter]);

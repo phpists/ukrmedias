@@ -4,25 +4,30 @@ namespace app\models;
 
 use Yii;
 
-class XML_PriceUa extends \app\components\XmlDocument {
+class XML_PriceUa extends \app\components\XmlDocument
+{
 
     static public $attrs = [
-        'name' => 'Найменування',
-        'categoryId' => 'Номенклатурна група',
-        'priceuah' => 'Ціна',
-        'image' => 'Фото',
-        'vendor' => 'Торгова марка',
+        'name' => 'Номенклатура / Характеристика номенклатуры',
         'vendorCode' => 'Артикул',
+        'code' => 'Штрихкод',
+        'vendor' => 'Торгова марка',
+        'visible_by_stock' => 'В наличии',
+        'priceuah' => 'Оптовая',
+        'odrder' => 'Заказ',
+        'categoryId' => 'Номенклатурна група',
+        'image' => 'Фото',
         'param' => 'Параметри',
         'description' => 'Опис',
         'available' => 'Наявність',
     ];
-    static public $default = ['name', 'categoryId', 'priceuah', 'image', 'vendor', 'vendorCode'];
+    static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'odrder'];
     protected $attributes;
     protected $root;
     protected $params = [];
 
-    public function createCatList() {
+    public function createCatList()
+    {
         $category = Category::findOne($this->attributes['cat_id']);
         $cats = $this->el('catalog');
         $cats->appendChild($this->el('category', $category->getTitle(), ['id' => $category->id]));
@@ -33,7 +38,8 @@ class XML_PriceUa extends \app\components\XmlDocument {
         $this->root->appendChild($cats);
     }
 
-    public function createGoodsList() {
+    public function createGoodsList()
+    {
         $goods = $this->el('items');
         $category = Category::findModel(@$this->attributes['cat_id']);
         $filter = new GoodsFilter($category);
@@ -63,7 +69,7 @@ class XML_PriceUa extends \app\components\XmlDocument {
                 $item->appendChild($this->el('vendorCode', $model->article));
             }
             if (isset($this->attributes['param'])) {
-                foreach ($model->getParams(Params::TYPE_GOODS_ONLY)as $param) {
+                foreach ($model->getParams(Params::TYPE_GOODS_ONLY) as $param) {
                     $item->appendChild($this->el('param', $param->getValue(), ['name' => $param->getTitle(), 'unit' => $param->getUnit()]));
                 }
             }
@@ -78,7 +84,8 @@ class XML_PriceUa extends \app\components\XmlDocument {
         $this->root->appendChild($goods);
     }
 
-    static public function create($file, $filter = []) {
+    static public function create($file, $filter = [])
+    {
         try {
             $xml = new self($file);
             $xml->attributes = $filter;

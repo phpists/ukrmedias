@@ -1214,7 +1214,6 @@
 
 .orders .cont .table .addresses .address .btns {
     justify-self: end;
-    visibility: hidden;
 }
 
 @media (max-width: 980px) {
@@ -1297,7 +1296,7 @@
     }
 
     .orders .cont .table .addresses .address .btns {
-        display: none;
+        display: flex;
     }
 }
 
