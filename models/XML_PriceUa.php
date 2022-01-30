@@ -14,14 +14,14 @@ class XML_PriceUa extends \app\components\XmlDocument
         'vendor' => 'Торгова марка',
         'visible_by_stock' => 'В наличии',
         'priceuah' => 'Оптовая',
+        'image' => 'Фото',
         'odrder' => 'Заказ',
         'categoryId' => 'Номенклатурна група',
-        'image' => 'Фото',
         'param' => 'Параметри',
         'description' => 'Опис',
         'available' => 'Наявність',
     ];
-    static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'odrder'];
+    static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'image', 'odrder'];
     protected $attributes;
     protected $root;
     protected $params = [];

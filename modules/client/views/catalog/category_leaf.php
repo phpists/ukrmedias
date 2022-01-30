@@ -141,6 +141,7 @@ use app\models\GoodsFilter;
         </div>
         <h3>Класичні</h3>
         <?php
+
         $filter->beginResult();
         echo $this->context->renderPartial('_filter_result', ['model' => $model, 'filter' => $filter]);
         ?>
@@ -150,7 +151,7 @@ use app\models\GoodsFilter;
 <?php $filter->endForm(); ?>
 <section class="category">
     <div class="block">
-        <?php echo $this->context->renderPartial('_download_btn', ['cat_id' => $model->id]); ?>
+        <?php echo $this->context->renderPartial('_download_btn', ['cat_id' => $model->id, 'category_level' => $category_level]); ?>
     </div>
 </section>
 <div id="js_filter_options_item_tpl" style="display:none;">

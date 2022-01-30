@@ -61,7 +61,8 @@ class CatalogController extends ClientController
                         'params' => $categoryData['params'],
                         'brandCpu' => $brandCpu,
                         'cats' => [],
-                        'facets' => $facets
+                        'facets' => $facets,
+                        'category_level' => 2
                     ]);
                 } else {
                     GoodsFilter::resetStateDirect();
@@ -70,6 +71,7 @@ class CatalogController extends ClientController
                         'cats' => $brandCpu === null ? $model->findChildren() : $this->brandModel->findCategories($this->categoryModel),
                         'brandCpu' => $brandCpu,
                         'brand_id' => $brandCpu === null ? null : $this->brandModel->id,
+                        'category_level' => 1
                     ]);
                 }
                 break;

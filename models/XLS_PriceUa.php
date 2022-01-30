@@ -72,13 +72,12 @@ class XLS_PriceUa
 
         self::setOrderColumnColor($row);
 
-
         return $row;
     }
 
     static function setOrderColumnColor($row)
     {
-        self::$sheet->getStyle("G{$row}")->applyFromArray([
+        self::$sheet->getStyle("H{$row}")->applyFromArray([
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
                 'rotation' => 90,
@@ -172,7 +171,7 @@ class XLS_PriceUa
                 foreach ($values as $c => $value) {
 
                     self::$sheet->setCellValueExplicitByColumnAndRow($c + 1, $row, $value, DataType::TYPE_STRING);
-                    self::$sheet->getStyle("A{$row}:F{$row}")->applyFromArray([
+                    self::$sheet->getStyle("A{$row}:G{$row}")->applyFromArray([
                         'fill' => [
                             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
                             'rotation' => 90,
@@ -190,7 +189,7 @@ class XLS_PriceUa
                 foreach ($model->getVisibleStockItems() as $valueItem) {
                     foreach ($valueItem as $c => $value) {
                         self::$sheet->setCellValueExplicitByColumnAndRow($c + 1, $row, $value, DataType::TYPE_STRING);
-                        self::$sheet->getStyle("A{$row}:F{$row}")->applyFromArray([
+                        self::$sheet->getStyle("A{$row}:G{$row}")->applyFromArray([
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
                             'color' => ['argb' => 'FFFFFADA'],
                         ]);
@@ -228,7 +227,6 @@ class XLS_PriceUa
             $spreadsheet->getDefaultStyle()->getFont()->setName('Arial');
             $spreadsheet->getDefaultStyle()->getFont()->setSize(10);
 
-
             self::$sheet = $spreadsheet->getActiveSheet();
             self::$sheet->setTitle($title);
             $header = [];
@@ -243,12 +241,17 @@ class XLS_PriceUa
             self::setHeaderDate() + 1;
             $row = $startRow = self::setHeader($header) + 1;
 
+            $spreadsheet->getActiveSheet()->getColumnDimension("A")->setWidth(50);
+            $spreadsheet->getActiveSheet()->getColumnDimension("B")->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension("C")->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension("D")->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension("F")->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension("G")->setWidth(17);
 
             for ($i = 1; $i < count($header); $i++) {
+
                 self::$sheet->getColumnDimensionByColumn($i);
             }
-            $category = Category::findModel(@$filterData['cat_id']);
-            $filter = new GoodsFilter($category);
 
             foreach ($modelsItems as $model) {
 
@@ -274,18 +277,28 @@ class XLS_PriceUa
                 if (isset($filterData['odrder'])) {
                     $values[] = '';
                 }
-                if (isset($filterData['categoryId'])) {
-                    $values[] = $model->getCategory()->title;
-                }
                 if (isset($filterData['image'])) {
-                    $photo = $model->getMainPhoto();
-                    if ($photo !== null) {
+                    $values[] = '';
 
+                    $photo = $model->getMainPhoto();
+                    if (file_exists('.' . $photo->getSrc())) {
+
+                        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+                        $drawing->setPath($photo->getSrc());
+//                        $drawing->setPath('./files/images/upload/goods/72/252/00000000678_photos_61b3644754c36.jpeg');
+                        $drawing->setHeight(95);
+                        $drawing->setWidth(115);
+                        $drawing->setCoordinates("G{$row}");
+                        $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+                        $spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(118);
                     } else {
                         $values[] = '';
                     }
 
-
+                }
+                if (isset($filterData['categoryId'])) {
+                    $values[] = $model->getCategory()->title;
                 }
 
                 if (isset($filterData['param'])) {
@@ -304,7 +317,7 @@ class XLS_PriceUa
                 foreach ($values as $c => $value) {
 
                     self::$sheet->setCellValueExplicitByColumnAndRow($c + 1, $row, $value, DataType::TYPE_STRING);
-                    self::$sheet->getStyle("A{$row}:F{$row}")->applyFromArray([
+                    self::$sheet->getStyle("A{$row}:G{$row}")->applyFromArray([
                         'fill' => [
                             'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
                             'rotation' => 90,
@@ -312,18 +325,14 @@ class XLS_PriceUa
                                 'argb' => 'FFFFFADA',
                             ],
                         ],
+                        'alignment' => [
+                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                        ],
                     ]);
 
                     self::setOrderColumnColor($row);
-
-                    $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                    $drawing->setPath('./files/images/upload/goods/72/252/00000000678_photos_61b3644754c36.jpeg');
-                    $drawing->setHeight(95);
-                    $drawing->setWidth(118);
-                    $drawing->setCoordinates("H{$row}");
-                    $drawing->setWorksheet($spreadsheet->getActiveSheet());
-
                 }
+
 
                 $row++;
 
@@ -333,6 +342,9 @@ class XLS_PriceUa
                         self::$sheet->getStyle("A{$row}:F{$row}")->applyFromArray([
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
                             'color' => ['argb' => 'FFFFFADA'],
+                            'alignment' => [
+                                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                            ],
                         ]);
 
                         self::setOrderColumnColor($row);
