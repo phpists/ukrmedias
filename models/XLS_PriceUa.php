@@ -176,6 +176,9 @@ class XLS_PriceUa
                             'color' => [
                                 'argb' => 'FFFFFADA',
                             ],
+                            'alignment' => [
+                                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                            ],
                         ],
                     ]);
 
@@ -190,12 +193,15 @@ class XLS_PriceUa
                         self::$sheet->getStyle("A{$row}:G{$row}")->applyFromArray([
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
                             'color' => ['argb' => 'FFFFFADA'],
+                            'alignment' => [
+                                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+                            ],
                         ]);
 
                         self::setOrderColumnColor('G', $row);
 
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setOutlineLevel(1);
-                        $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(false);
+                        $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(true);
                     }
                     $row++;
                 }
@@ -324,7 +330,7 @@ class XLS_PriceUa
                             ],
                         ],
                         'alignment' => [
-                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
                         ],
                     ]);
 
@@ -342,7 +348,7 @@ class XLS_PriceUa
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
                             'color' => ['argb' => 'FFFFFADA'],
                             'alignment' => [
-                                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
                             ],
                         ]);
 

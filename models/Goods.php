@@ -483,7 +483,7 @@ class Goods extends \app\components\BaseActiveRecord
                     ->all();
 
                 $values[] = [
-                    $size['color'],
+                    $size['size'] . ' ' . $size['color'],
                     '',
                     $size->barCode,
                     '',
