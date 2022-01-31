@@ -347,7 +347,7 @@ class Category extends \app\components\BaseActiveRecord {
 
     static public function getDataModelColor($color)
     {
-        $color = explode('/', $color);
-        return isset($color[1]) ? $color[1] : $color;
+        $goodColor = explode('/', $color);
+        return isset($goodColor[1]) ? $goodColor[1] : $color;
     }
 }

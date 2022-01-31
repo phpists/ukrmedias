@@ -139,7 +139,6 @@ use app\models\GoodsFilter;
                 <?php } ?>
             </div>
         </div>
-        <h3>Класичні</h3>
         <?php
 
         $filter->beginResult();

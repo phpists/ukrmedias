@@ -116,8 +116,6 @@ class XLS_PriceUa
             for ($i = 1; $i < count($header); $i++) {
                 self::$sheet->getColumnDimensionByColumn($i)->setAutoSize(true);
             }
-            $category = Category::findModel(@$filterData['cat_id']);
-            $filter = new GoodsFilter($category);
 
             foreach ($modelsItems as $model) {
 
@@ -284,7 +282,7 @@ class XLS_PriceUa
                     if (file_exists('.' . $photo->getSrc())) {
 
                         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                        $drawing->setPath($photo->getSrc());
+                        $drawing->setPath('.' . $photo->getSrc());
 //                        $drawing->setPath('./files/images/upload/goods/72/252/00000000678_photos_61b3644754c36.jpeg');
                         $drawing->setHeight(95);
                         $drawing->setWidth(115);
