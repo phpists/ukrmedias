@@ -46,7 +46,7 @@ class XLS_PriceUa
         return $row;
     }
 
-    static protected function setHeader($header)
+    static protected function setHeader($column, $header)
     {
         $row = 5;
         $c = 1;
@@ -70,14 +70,14 @@ class XLS_PriceUa
             ],
         ]);
 
-        self::setOrderColumnColor($row);
+        self::setOrderColumnColor($column, $row);
 
         return $row;
     }
 
-    static function setOrderColumnColor($row)
+    static function setOrderColumnColor($col, $row)
     {
-        self::$sheet->getStyle("H{$row}")->applyFromArray([
+        self::$sheet->getStyle("{$col}{$row}")->applyFromArray([
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_GRADIENT_LINEAR,
                 'rotation' => 90,
@@ -110,7 +110,7 @@ class XLS_PriceUa
 
             self::setHeaderTitle() + 1;
             self::setHeaderDate() + 1;
-            $row = $startRow = self::setHeader($header) + 1;
+            $row = $startRow = self::setHeader('G', $header) + 1;
 
 
             for ($i = 1; $i < count($header); $i++) {
@@ -179,7 +179,7 @@ class XLS_PriceUa
                         ],
                     ]);
 
-                    self::setOrderColumnColor($row);
+                    self::setOrderColumnColor('G', $row);
                 }
 
                 $row++;
@@ -192,7 +192,7 @@ class XLS_PriceUa
                             'color' => ['argb' => 'FFFFFADA'],
                         ]);
 
-                        self::setOrderColumnColor($row);
+                        self::setOrderColumnColor('G', $row);
 
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setOutlineLevel(1);
                         $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(false);
@@ -236,7 +236,7 @@ class XLS_PriceUa
 
             self::setHeaderTitle() + 1;
             self::setHeaderDate() + 1;
-            $row = $startRow = self::setHeader($header) + 1;
+            $row = $startRow = self::setHeader('H', $header) + 1;
 
             $spreadsheet->getActiveSheet()->getColumnDimension("A")->setWidth(50);
             $spreadsheet->getActiveSheet()->getColumnDimension("B")->setWidth(15);
@@ -328,7 +328,7 @@ class XLS_PriceUa
                         ],
                     ]);
 
-                    self::setOrderColumnColor($row);
+                    self::setOrderColumnColor('H', $row);
                 }
 
 
@@ -346,7 +346,7 @@ class XLS_PriceUa
                             ],
                         ]);
 
-                        self::setOrderColumnColor($row);
+                        self::setOrderColumnColor('H',$row);
 
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setOutlineLevel(1);
                         $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(false);
@@ -354,7 +354,6 @@ class XLS_PriceUa
                     }
                     $row++;
                 }
-
 
 
             }
