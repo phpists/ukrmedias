@@ -141,9 +141,6 @@ class XLS_PriceUa
                 if (isset($filterData['odrder'])) {
                     $values[] = '';
                 }
-                if (isset($filterData['categoryId'])) {
-                    $values[] = $model->getCategory()->title;
-                }
                 if (isset($filterData['image'])) {
                     $photo = $model->getMainPhoto();
                     if ($photo !== null) {
@@ -151,6 +148,9 @@ class XLS_PriceUa
                     } else {
                         $values[] = '';
                     }
+                }
+                if (isset($filterData['categoryId'])) {
+                    $values[] = $model->getCategory()->title;
                 }
 
                 if (isset($filterData['param'])) {
@@ -197,9 +197,8 @@ class XLS_PriceUa
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setOutlineLevel(1);
                         $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(false);
                     }
+                    $row++;
                 }
-
-                $row++;
 
             }
 
@@ -290,6 +289,7 @@ class XLS_PriceUa
                         $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setRowHeight(118);
+
                     } else {
                         $values[] = '';
                     }
@@ -335,6 +335,7 @@ class XLS_PriceUa
                 $row++;
 
                 foreach ($model->getVisibleStockItems() as $valueItem) {
+
                     foreach ($valueItem as $c => $value) {
                         self::$sheet->setCellValueExplicitByColumnAndRow($c + 1, $row, $value, DataType::TYPE_STRING);
                         self::$sheet->getStyle("A{$row}:F{$row}")->applyFromArray([
@@ -349,10 +350,12 @@ class XLS_PriceUa
 
                         $spreadsheet->getActiveSheet()->getRowDimension($row)->setOutlineLevel(1);
                         $spreadsheet->getActiveSheet()->getRowDimension($i)->setVisible(false);
+
                     }
+                    $row++;
                 }
 
-                $row++;
+
 
             }
 

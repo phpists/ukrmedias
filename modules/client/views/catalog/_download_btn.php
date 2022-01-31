@@ -68,7 +68,7 @@ use yii\helpers\Url;
                 <div>
                     <?php foreach (array_slice(XML_PriceUa::$attrs, 0, 6) as $id => $title): ?>
                         <label class="checkbox">
-                            <?php echo Html::checkbox("XML_PriceUa[{$id}]", in_array($id, XML_PriceUa::$default)); ?>
+                            <?php echo Html::checkbox("XML_PriceUa[{$id}]", in_array($id, XML_PriceUa::$defaultWithImage)); ?>
                             <span><?php echo $title; ?></span>
                         </label>
                     <?php endforeach; ?>
@@ -76,7 +76,7 @@ use yii\helpers\Url;
                 <div>
                     <?php foreach (array_slice(XML_PriceUa::$attrs, 6) as $id => $title): ?>
                         <label class="checkbox">
-                            <?php echo Html::checkbox("XML_PriceUa[{$id}]", in_array($id, XML_PriceUa::$default)); ?>
+                            <?php echo Html::checkbox("XML_PriceUa[{$id}]", in_array($id, XML_PriceUa::$defaultWithImage)); ?>
                             <span><?php echo $title; ?></span>
                         </label>
                     <?php endforeach; ?>

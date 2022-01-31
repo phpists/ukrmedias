@@ -430,7 +430,7 @@ class Goods extends \app\components\BaseActiveRecord
             ])
             ->groupBy('gp.param_id, gp.value');
 
-        if (count($brands)){
+        if (count($brands)) {
             $query->andWhere([
                 'g.brand_id' => $brands,
             ]);
@@ -473,27 +473,30 @@ class Goods extends \app\components\BaseActiveRecord
     public function getVisibleStockItems()
     {
         $values = [];
-        foreach ($this->getVariantsGrouped() as $goodSizes){
-            foreach ($goodSizes as $size){
-                $a = 50;
+        foreach ($this->getVariantsGrouped() as $goodSizes) {
+            foreach ($goodSizes as $size) {
 
-//                $question = OrdersDetails::find()->where(['bar_code' => $size->barCode])->groupBy('bar_code')->one();
+                $goodSizeParam = (new \yii\db\Query())
+                    ->select('*')
+                    ->from('goods_variants')
+                    ->where(['barcode' => $size->barCode])
+                    ->all();
 
                 $values[] = [
                     $size['color'],
                     '',
                     $size->barCode,
                     '',
-                    20,
-                    65,
+                    count($goodSizeParam),
+                    $size->goodsModel->getPrice(),
                     ''
                 ];
+
             }
         }
 
         return $values;
     }
-
 
 
 }

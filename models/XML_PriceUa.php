@@ -21,7 +21,8 @@ class XML_PriceUa extends \app\components\XmlDocument
         'description' => 'Опис',
         'available' => 'Наявність',
     ];
-    static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'image', 'odrder'];
+    static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'odrder'];
+    static public $defaultWithImage = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'image', 'odrder'];
     protected $attributes;
     protected $root;
     protected $params = [];

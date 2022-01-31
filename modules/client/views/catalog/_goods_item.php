@@ -1,7 +1,6 @@
 <?php
 
 use app\models\Cpu;
-
 $goodCpu = Cpu::find()->where(['id' => $model->id])->one()->toArray();
 
 if ($goodCpu['visible']) {
