@@ -12,13 +12,14 @@ class XML_PriceUa extends \app\components\XmlDocument
         'vendorCode' => 'Артикул',
         'code' => 'Штрихкод',
         'vendor' => 'Торгова марка',
-        'visible_by_stock' => 'В наявності',
+        'visible_by_stock' => 'Залишок',
         'priceuah' => 'Гуртова',
         'image' => 'Фото',
         'odrder' => 'Замовлення',
         'categoryId' => 'Номенклатурна група',
         'param' => 'Параметри',
         'description' => 'Опис',
+        'available' => 'Наявність',
     ];
     static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'odrder'];
     static public $defaultWithImage = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'image', 'odrder'];
