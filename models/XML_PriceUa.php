@@ -8,18 +8,17 @@ class XML_PriceUa extends \app\components\XmlDocument
 {
 
     static public $attrs = [
-        'name' => 'Номенклатура / Характеристика номенклатуры',
+        'name' => 'Номенклатура',
         'vendorCode' => 'Артикул',
         'code' => 'Штрихкод',
         'vendor' => 'Торгова марка',
-        'visible_by_stock' => 'В наличии',
-        'priceuah' => 'Оптовая',
+        'visible_by_stock' => 'В наявності',
+        'priceuah' => 'Гуртова',
         'image' => 'Фото',
-        'odrder' => 'Заказ',
+        'odrder' => 'Замовлення',
         'categoryId' => 'Номенклатурна група',
         'param' => 'Параметри',
         'description' => 'Опис',
-        'available' => 'Наявність',
     ];
     static public $default = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'odrder'];
     static public $defaultWithImage = ['name', 'vendorCode', 'code', 'vendor', 'visible_by_stock', 'priceuah', 'image', 'odrder'];

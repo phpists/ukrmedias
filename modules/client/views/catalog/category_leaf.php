@@ -150,7 +150,7 @@ use app\models\GoodsFilter;
 <?php $filter->endForm(); ?>
 <section class="category">
     <div class="block">
-        <?php echo $this->context->renderPartial('_download_btn', ['cat_id' => $model->id, 'category_level' => $category_level]); ?>
+        <?php echo $this->context->renderPartial('_download_btn', ['cat_id' => $model->id, 'category_level' => $category_level ?? 1]); ?>
     </div>
 </section>
 <div id="js_filter_options_item_tpl" style="display:none;">

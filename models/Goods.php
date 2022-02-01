@@ -343,7 +343,13 @@ class Goods extends \app\components\BaseActiveRecord
 
     public function getBasePrice()
     {
-        return $this->price;
+        if ($this->price_min != $this->price_max){
+            $price = $this->price_min . ' ' . $this->price_max;
+        } else {
+            $price = $this->price;
+        }
+
+        return $price;
     }
 
     public function getDiscountTxt()
@@ -462,7 +468,7 @@ class Goods extends \app\components\BaseActiveRecord
        foreach ($goodSizes as $size){
            foreach ($size as $item){
                if (isset($item)){
-                   $i++;
+                   $i+= $item->qty;
                }
            }
        }
@@ -476,19 +482,13 @@ class Goods extends \app\components\BaseActiveRecord
         foreach ($this->getVariantsGrouped() as $goodSizes) {
             foreach ($goodSizes as $size) {
 
-                $goodSizeParam = (new \yii\db\Query())
-                    ->select('*')
-                    ->from('goods_variants')
-                    ->where(['barcode' => $size->barCode])
-                    ->all();
-
                 $values[] = [
                     $size['size'] . ' ' . $size['color'],
                     '',
-                    $size->barCode,
+                    (string)$size->barCode,
                     '',
-                    count($goodSizeParam),
-                    $size->goodsModel->getPrice(),
+                    $size->qty,
+                    $size->goodsModel->price,
                     ''
                 ];
 

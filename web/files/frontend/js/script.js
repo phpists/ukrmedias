@@ -4,12 +4,14 @@ function loadOptionsAlt(input, url, selector, rel) {
         $(rel).html("");
     });
 }
+
 function uploadFile(btn) {
     var $btn = $(btn);
     var $indicator = $btn.next();
     var $input = $("<input type='file' style='display:none;'/>").on("change", sendFile);
     $("body").append($input);
     $input.trigger("click");
+
     function sendFile() {
         $btn.toggle();
         $indicator.toggleClass("dn");
@@ -35,6 +37,7 @@ function uploadFile(btn) {
         });
     }
 }
+
 function testWebP(callback) {
     var webP = new Image();
     webP.onload = webP.onerror = function () {
@@ -85,7 +88,7 @@ $("#js_download_with_image").click(function () {
     $modal.find("a").unbind().bind("click", function (e) {
         e.preventDefault();
         var $footer = $modal.find("div.footer").hide();
-        var $indicator = $("#js_upload_indicator").show();
+        var $indicator = $("#js_upload_indicator_photo").show();
         $.post($(this).attr("href"), $(this).closest("form").serialize(), function (url) {
             if (/download/.test(url)) {
                 $modal.removeClass('opac1').addClass('opac0');
@@ -97,54 +100,59 @@ $("#js_download_with_image").click(function () {
     });
 });
 $(document)
-        .on("dblclick", 'div.alert', function () {
-            if ($(this).hasClass("skip-click")) {
-                return;
-            }
-            $(this).slideUp(function () {
-                $(this).remove();
-            });
-        })
-        .on("click", "[data-confirm-click]", function (e) {
-            e.preventDefault();
-            var $link = $(this);
-            $("#delete-confirm").find("div.text").html($(this).data("confirm-click"));
-            $("#delete-confirm").removeClass("opac0").addClass("opac1").find(".confirm").unbind().one("click", function () {
-                $.ajax({
-                    url: $link.attr("href"),
-                    type: "post",
-                    data: CSRF,
-                    success: function (resp) {
-                        location.href = resp;
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Помилка ajax-запиту: " + xhr.responseText);
-                    }
-                });
-            });
-            $("#delete-confirm").find(".close").unbind().one("click", function () {
-                $("#delete-confirm").removeClass('opac1').addClass('opac0');
-            });
-        })
-        .on("change", "form.js_ajax_form", function (event) {
-            var $form = $(this);
-            var divSelector = $form.data("update");
+    .on("dblclick", 'div.alert', function () {
+        if ($(this).hasClass("skip-click")) {
+            return;
+        }
+        $(this).slideUp(function () {
+            $(this).remove();
+        });
+    })
+    .on("click", "[data-confirm-click]", function (e) {
+        e.preventDefault();
+        var $link = $(this);
+        $("#delete-confirm").find("div.text").html($(this).data("confirm-click"));
+        $("#delete-confirm").removeClass("opac0").addClass("opac1").find(".confirm").unbind().one("click", function () {
             $.ajax({
-                url: $form.attr("action"),
-                type: $form.attr("method"),
-                dataType: "html",
-                data: $form.serialize(),
-                success: function (html) {
-                    if (divSelector) {
-                        var div = $(html).find(divSelector);
-                        $(divSelector).html(div);
-                    } else {
-                        $.pjax.reload({container: '#' + $form.closest("[data-pjax-container]").attr("id"), url: $form.data("reloadurl"), timeout: 3000, history: false});
-                    }
+                url: $link.attr("href"),
+                type: "post",
+                data: CSRF,
+                success: function (resp) {
+                    location.href = resp;
+                },
+                error: function (xhr, status, error) {
+                    alert("Помилка ajax-запиту: " + xhr.responseText);
                 }
             });
-        })
-        ;
+        });
+        $("#delete-confirm").find(".close").unbind().one("click", function () {
+            $("#delete-confirm").removeClass('opac1').addClass('opac0');
+        });
+    })
+    .on("change", "form.js_ajax_form", function (event) {
+        var $form = $(this);
+        var divSelector = $form.data("update");
+        $.ajax({
+            url: $form.attr("action"),
+            type: $form.attr("method"),
+            dataType: "html",
+            data: $form.serialize(),
+            success: function (html) {
+                if (divSelector) {
+                    var div = $(html).find(divSelector);
+                    $(divSelector).html(div);
+                } else {
+                    $.pjax.reload({
+                        container: '#' + $form.closest("[data-pjax-container]").attr("id"),
+                        url: $form.data("reloadurl"),
+                        timeout: 3000,
+                        history: false
+                    });
+                }
+            }
+        });
+    })
+;
 
 var $page = $('html, body');
 $('a[href*="#header"]').click(function () {
@@ -157,30 +165,30 @@ $('a[href*="#header"]').click(function () {
 // Каталог меню
 
 $("body")
-        .on("click", "div.modal svg.close", function () {
-            $(this).closest("div.opac1").removeClass('opac1').addClass('opac0');
-        })
-//        .on("click", "div.level_data_2>div.cat_title", function () {
-//            var $title = $(this).show();
-//            var $div = $title.closest("div.level_data_2").show();
-//            var $subMenu = $div.find(">div.children").show();
-//            $div.closest("div.line_2_mob").find("div.level_data_2").not($div).hide();
-//            $div.closest("div.line_2_mob").find("div.level_data_2 div.children").not($subMenu).hide();
-//        })
-        .on("click", "#line_2_mob div.js_level_data div.cat_title", function (e) {
-            var $title = $(this).show();
-            if ($title.next("div.children").length > 0) {
-                e.preventDefault();
-                e.stopPropagation();
-            } else {
-                return;
-            }
-            var $div = $title.closest("div.js_level_data").show();
-            var $subMenu = $div.find(">div.children").show();
-            $div.parent().find(">div.js_level_data").not($div).hide();
-            $div.parent().find(">div.js_level_data>div.children").not($subMenu).hide();
-        })
-        ;
+    .on("click", "div.modal svg.close", function () {
+        $(this).closest("div.opac1").removeClass('opac1').addClass('opac0');
+    })
+    //        .on("click", "div.level_data_2>div.cat_title", function () {
+    //            var $title = $(this).show();
+    //            var $div = $title.closest("div.level_data_2").show();
+    //            var $subMenu = $div.find(">div.children").show();
+    //            $div.closest("div.line_2_mob").find("div.level_data_2").not($div).hide();
+    //            $div.closest("div.line_2_mob").find("div.level_data_2 div.children").not($subMenu).hide();
+    //        })
+    .on("click", "#line_2_mob div.js_level_data div.cat_title", function (e) {
+        var $title = $(this).show();
+        if ($title.next("div.children").length > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            return;
+        }
+        var $div = $title.closest("div.js_level_data").show();
+        var $subMenu = $div.find(">div.children").show();
+        $div.parent().find(">div.js_level_data").not($div).hide();
+        $div.parent().find(">div.js_level_data>div.children").not($subMenu).hide();
+    })
+;
 $("#catalog_menu_btn").click(function () {
     $("#line_2_mob").slideToggle();
 });
@@ -202,7 +210,7 @@ jQuery(function ($) {
         var profile = $("#profile");
         var profile_block = $("#profile .profile_block"); // тут указываем ID элемента
         if (!profile_block.is(e.target) // если клик был не по нашему блоку
-                && profile_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && profile_block.has(e.target).length === 0) { // и не по его дочерним элементам
             profile.removeClass('opac1').addClass('opac0'); // скрываем его
         }
     });
@@ -223,7 +231,7 @@ jQuery(function ($) {
         var search = $("#search");
         var search_block = $("#search .search_block"); // тут указываем ID элемента
         if (!search_block.is(e.target) // если клик был не по нашему блоку
-                && search_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && search_block.has(e.target).length === 0) { // и не по его дочерним элементам
             search.removeClass('opac1').addClass('opac0'); // скрываем его
         }
     });
@@ -258,7 +266,7 @@ jQuery(function ($) {
         var quantity = $("#category .show");
         var quantity_block = $("#quantity_choise"); // тут указываем ID элемента
         if (!quantity.is(e.target) // если клик был не по нашему блоку
-                && quantity_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && quantity_block.has(e.target).length === 0) { // и не по его дочерним элементам
             quantity_block.removeClass('transY1').addClass('transY0'); // скрываем его
         }
     });
@@ -278,7 +286,7 @@ jQuery(function ($) {
         var sort = $("#category .sort");
         var sort_block = $("#category .sort div"); // тут указываем ID элемента
         if (!sort.is(e.target) // если клик был не по нашему блоку
-                && sort_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && sort_block.has(e.target).length === 0) { // и не по его дочерним элементам
             sort_block.removeClass('transY1').addClass('transY0'); // скрываем его
         }
     });
@@ -319,6 +327,7 @@ $('#formation2').click(function () {
 function GoodsFilterInit() {
     GoodsFilterBefore();
 }
+
 function GoodsFilterBefore() {
     var data = {};
     var $options = $("#js_goods_filter_form div.options");
@@ -355,6 +364,7 @@ function GoodsFilterBefore() {
         $options.append($el);
     }
 }
+
 $('#page_choise div').click(function () {
     $('#page_choise div').removeClass('col_bdr').addClass('col_blc');
     $(this).removeClass('col_blc').addClass('col_bdr');
@@ -441,7 +451,8 @@ $("#order_block div.js_btn,#ordering div.js_btn").click(function () {
 });
 
 $("#order_block input.number, #ordering input.number").change(function () {
-    var totalItems = 0, totalWeight = 0, totalVolume = 0, total = 0, $div, weight, volume, price, qty, amount, goodsQty = 0;
+    var totalItems = 0, totalWeight = 0, totalVolume = 0, total = 0, $div, weight, volume, price, qty, amount,
+        goodsQty = 0;
     $(this).closest("section").find("div.js_goods").each(function () {
         $div = $(this);
         weight = Number($div.data("weight"));
@@ -475,6 +486,7 @@ $("#order_block").unbind().bind("submit", function (e) {
     e.preventDefault();
     e.stopPropagation();
 });
+
 function addToCart($item) {
     var $form = $item.closest("form");
     $form.find("a.to_order").addClass("active");
@@ -510,7 +522,7 @@ jQuery(function ($) {
         var tels_choise = $("#header .tels_choise svg");
         var tels_choise_block = $("#header .tels_choise .drop"); // тут указываем ID элемента
         if (!tels_choise.is(e.target) // если клик был не по нашему блоку
-                && tels_choise_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && tels_choise_block.has(e.target).length === 0) { // и не по его дочерним элементам
             tels_choise_block.removeClass('transY1').addClass('transY0'); // скрываем его
         }
     });
@@ -623,7 +635,7 @@ jQuery(function ($) {
         var confirm_window = $("#confirm_window");
         var confirm_window_block = $("#confirm_window .confirm_window"); // тут указываем ID элемента
         if (!confirm_window_block.is(e.target) // если клик был не по нашему блоку
-                && confirm_window_block.has(e.target).length === 0) { // и не по его дочерним элементам
+            && confirm_window_block.has(e.target).length === 0) { // и не по его дочерним элементам
             confirm_window.removeClass('opac1').addClass('opac0'); // скрываем его
         }
     });
@@ -730,9 +742,11 @@ $('#show_params').click(function () {
         $('#show_params svg').css('transform', 'rotate(0deg)');
     }
 });
+
 function GoodsPage_photoVariantClick(selector) {
     $(selector.concat(" img")).trigger("click");
 }
+
 //$(function () {
 //    if ($(window).width() <= 768) {
 //        $('#drop_filters').css('display', 'none');
@@ -780,7 +794,7 @@ function parseResponse(id, resp) {
 
         var checkedOpts = $('#param_' + param).find('label.checkbox input:checked');
 
-        $.each(checkedOpts, function(_idx, el) {
+        $.each(checkedOpts, function (_idx, el) {
             checkedItems.push($(el).val().trim());
         });
 
@@ -826,4 +840,20 @@ $(document).on("click", ".pagination_link", function (e) {
     });
 
 });
+
+// $('.dark_fond').on('click', function () {
+//
+//     if ($('#modal-download').hasClass('opac1')) {
+//         $('#modal-download').removeClass('opac1').addClass('opac0');
+//     }
+//
+//     if ($('#modal-download-with-image').hasClass('opac1')) {
+//         $('#modal-download-with-image').removeClass('opac1').addClass('opac0');
+//     }
+//
+// });
+
+
+
+
 

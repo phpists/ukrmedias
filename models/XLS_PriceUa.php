@@ -19,7 +19,7 @@ class XLS_PriceUa
         $row = 1;
         $c = 1;
 
-        self::$sheet->setCellValueByColumnAndRow($c, $row, 'Остатки контрагентам для заказа');
+        self::$sheet->setCellValueByColumnAndRow($c, $row, 'Залишки контрагентів для замовлення');
         $col = Coordinate::stringFromColumnIndex($c);
         self::$sheet->getStyle("A{$row}:{$col}{$row}")->applyFromArray([
             'font' => ['bold' => true, 'size' => 14],
@@ -35,7 +35,7 @@ class XLS_PriceUa
         $row = 3;
         $c = 1;
 
-        self::$sheet->setCellValueByColumnAndRow($c, $row, 'Остатки на дату: ' . date('d.m.Y'));
+        self::$sheet->setCellValueByColumnAndRow($c, $row, 'Залишки на дату: ' . date('d.m.Y'));
         $col = Coordinate::stringFromColumnIndex($c);
         self::$sheet->getStyle("A{$row}:{$col}{$row}")->applyFromArray([
             'font' => ['size' => 8],
@@ -136,7 +136,7 @@ class XLS_PriceUa
                     $values[] = $model->getVisibleStockCount();
                 }
                 if (isset($filterData['priceuah'])) {
-                    $values[] = $model->getBasePrice();
+                    $values[] = $model->getPriceRange();
                 }
                 if (isset($filterData['odrder'])) {
                     $values[] = '';
@@ -275,7 +275,7 @@ class XLS_PriceUa
                     $values[] = $model->getVisibleStockCount();
                 }
                 if (isset($filterData['priceuah'])) {
-                    $values[] = $model->getBasePrice();
+                    $values[] = $model->getPriceRange();
                 }
                 if (isset($filterData['odrder'])) {
                     $values[] = '';
@@ -288,7 +288,6 @@ class XLS_PriceUa
 
                         $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
                         $drawing->setPath('.' . $photo->getSrc());
-//                        $drawing->setPath('./files/images/upload/goods/72/252/00000000678_photos_61b3644754c36.jpeg');
                         $drawing->setHeight(95);
                         $drawing->setWidth(115);
                         $drawing->setCoordinates("G{$row}");

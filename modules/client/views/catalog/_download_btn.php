@@ -95,8 +95,7 @@ use yii\helpers\Url;
                         в Excel</a>
                 </div>
             </div>
-            <span id="js_upload_indicator" class="dn"
-                  style="padding:7px;"><?php echo \app\components\Icons::$loading; ?></span>
+            <span id="js_upload_indicator_photo" class="dn" style="padding:7px;"><?php echo \app\components\Icons::$loading; ?></span>
         </div>
         <?php AppActiveForm::end(); ?>
     </div>
