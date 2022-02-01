@@ -841,17 +841,26 @@ $(document).on("click", ".pagination_link", function (e) {
 
 });
 
-// $('.dark_fond').on('click', function () {
-//
-//     if ($('#modal-download').hasClass('opac1')) {
-//         $('#modal-download').removeClass('opac1').addClass('opac0');
-//     }
-//
-//     if ($('#modal-download-with-image').hasClass('opac1')) {
-//         $('#modal-download-with-image').removeClass('opac1').addClass('opac0');
-//     }
-//
-// });
+function closeModel(e, modal) {
+
+    var is = $(e.target).closest('.modal').length > 0;
+    if (is){
+        return;
+    }
+
+    $(modal).removeClass('opac1').addClass('opac0');
+}
+
+$(document).ready(function () {
+
+    $('#modal-download').on('click', function (e) {
+        closeModel(e, this);
+    });
+
+    $('#modal-download-with-image').on('click', function (e) {
+        closeModel(e, this);
+    });
+});
 
 
 
