@@ -468,7 +468,7 @@ class Goods extends \app\components\BaseActiveRecord
        foreach ($goodSizes as $size){
            foreach ($size as $item){
                if (isset($item)){
-                   $i+= $item->qty;
+                   $i+= ($item->qty_alt + $item->qty);
                }
            }
        }
@@ -487,7 +487,7 @@ class Goods extends \app\components\BaseActiveRecord
                     '',
                     (string)$size->barCode,
                     '',
-                    $size->qty,
+                    $size->qty_alt + $size->qty,
                     $size->goodsModel->price,
                     ''
                 ];
