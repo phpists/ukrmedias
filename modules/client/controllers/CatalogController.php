@@ -111,9 +111,17 @@ class CatalogController extends ClientController
         $model = Category::findOne(Category::ROOT_ID);
         $filter = new GoodsFilter($model, null, $q);
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-            return $this->renderPartial('_filter_result', [
+
+            $html = $this->renderPartial('_filter_result', [
                 'model' => $model,
                 'filter' => $filter,
+            ]);
+
+            $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
+
+            return $this->asJson([
+                'html' => $html,
+                'facets' => $facets
             ]);
         }
         return $this->render('category_leaf', [
@@ -132,9 +140,17 @@ class CatalogController extends ClientController
         $filter = new GoodsFilter($model, null, null, false, true);
         $model->title = 'Новинки';
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-            return $this->renderPartial('_filter_result', [
+
+            $html = $this->renderPartial('_filter_result', [
                 'model' => $model,
                 'filter' => $filter,
+            ]);
+
+            $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
+
+            return $this->asJson([
+                'html' => $html,
+                'facets' => $facets
             ]);
         }
         $categoryData = DataHelper::getCategoryData($model->id);
@@ -160,9 +176,17 @@ class CatalogController extends ClientController
         $filter = new GoodsFilter($model, null, null, true, false);
         $model->title = 'Акційні товари';
         if (Yii::$app->request->isPost && Yii::$app->request->isAjax) {
-            return $this->renderPartial('_filter_result', [
+
+            $html = $this->renderPartial('_filter_result', [
                 'model' => $model,
                 'filter' => $filter,
+            ]);
+
+            $facets = Goods::fasetsByBrands($_POST['b'] ?? [], $model->id);
+
+            return $this->asJson([
+                'html' => $html,
+                'facets' => $facets
             ]);
         }
         $promoData = DataHelper::getPromoData($id);

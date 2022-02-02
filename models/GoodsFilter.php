@@ -148,11 +148,6 @@ class GoodsFilter {
         $model->setScenario('search');
         $query = Goods::find();
         $query->alias('g');
-        $query->leftJoin('goods_params', 'goods_params.goods_id = g.id');
-        $query->select("g.*, goods_params.value as model");
-        $query->andWhere(['goods_params.param_id' => 'Модель']);
-
-
         if (count($this->get(self::$brands)) > 0) {
             $query->andWhere(['in', 'brand_id', $this->get(self::$brands)]);
         }
