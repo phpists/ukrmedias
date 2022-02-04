@@ -341,15 +341,8 @@ class Goods extends \app\components\BaseActiveRecord
         }
     }
 
-    public function getBasePrice()
-    {
-        if ($this->price_min != $this->price_max){
-            $price = $this->price_min . ' ' . $this->price_max;
-        } else {
-            $price = $this->price;
-        }
-
-        return $price;
+    public function getBasePrice() {
+        return $this->price;
     }
 
     public function getDiscountTxt()
