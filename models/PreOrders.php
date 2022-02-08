@@ -231,12 +231,12 @@ class PreOrders extends \app\components\BaseActiveRecord {
                 }
             }
         }
-        if ($this->status_id <> self::STATUS_DRAFT) {
-            if (!OrdersDetails::find()->where(['doc_id' => $this->id])->exists()) {
-                $this->addError('id', 'Заявка порожня.');
-                return false;
-            }
-        }
+//        if ($this->status_id <> self::STATUS_DRAFT) {
+//            if (OrdersDetails::find()->where(['doc_id' => $this->id])->exists()) {
+//                $this->addError('id', 'Заявка порожня.');
+//                return false;
+//            }
+//        }
         $res = $this->save($validate);
         return $res;
     }
